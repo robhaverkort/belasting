@@ -1,0 +1,82 @@
+/*
+To change this license header, choose License Headers in Project Properties.
+To change this template file, choose Tools | Templates
+and open the template in the editor.
+*/
+/* 
+    Created on : Dec 23, 2015, 3:18:37 PM
+    Author     : rob
+*/
+
+body {
+    padding-top: 70px;
+    padding-bottom: 30px;
+}
+
+.theme-dropdown .dropdown-menu {
+    position: static;
+    display: block;
+    margin-bottom: 20px;
+}
+
+.theme-showcase > p > .btn {
+    margin: 5px 0;
+}
+
+.theme-showcase .navbar .container {
+    width: auto;
+}
+
+
+.table-inkomen {
+    width:100%;
+}
+.table-inkomen th {
+    text-align: right;
+}
+.table-inkomen td.nr {
+    text-align: right;
+}
+
+.table-salaris {
+    width:100%;
+}
+.table-salaris th {
+    text-align: right;
+}
+.table-salaris td.nr {
+    text-align: right;
+}
+.table-salaris td.vet {
+    font-weight: bold;
+}
+
+.table-toeslag {
+    width:100%;
+}
+.table-toeslag th {
+    text-align: right;
+}
+.table-toeslag td.nr {
+    text-align: right;
+}
+
+.table-woning {
+    width:100%;
+}
+.table-woning th {
+    text-align: right;
+}
+.table-woning td.nr {
+    text-align: right;
+}
+
+.table-kind {
+    width:100%;
+}
+.table-kind th {
+    text-align: right;
+}
+.table-kind td.nr {
+    text-align: right;
+}

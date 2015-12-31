@@ -1,0 +1,151 @@
+{% extends 'BelastingBundle::base.html.twig' %}
+
+{% block title %}{{ huishouden.naam }}{% endblock %}
+
+{% block body %}
+
+    <div class="jumbotron">
+        <h1>Overzicht</h1>
+        <p>Op deze pagina zie je snel de samenstelling van je familie, je netto inkomen en eventuele toeslagen waar je recht op hebt.</p>
+    </div>
+
+    <div class="page-header">
+        <h1>{{ huishouden.naam }}</h1>
+    </div>
+
+    <div class="row">
+
+        <div class="col-sm-4">
+            <div class="panel panel-default">
+                <div class="panel-heading">
+                    <h3 class="panel-title">Belastingplichtigen</h3>
+                </div>
+                <div class="panel-body">
+                    <table>
+                        {% for belastingplichtige in belastingplichtigen %}
+                            <tr>
+                                <td>{{ belastingplichtige.naam }}</td>
+                            </tr>
+                        {% endfor %}
+                    </table>                </div>
+            </div>
+        </div>
+
+        <div class="col-sm-4">
+            <div class="panel panel-default">
+                <div class="panel-heading">
+                    <h3 class="panel-title">Kinderen</h3>
+                </div>
+                <div class="panel-body">
+                    <table>
+                        {% for kind in kinderen %}
+                            <tr>
+                                <td>{{ kind.naam }}</td>
+                                <td> {{ kind.leeftijd() }} jaar</td>
+                            </tr>
+                        {% endfor %}
+                    </table>
+                </div>
+            </div>
+        </div>
+
+        <div class="col-sm-4">
+            <div class="panel panel-default">
+                <div class="panel-heading">
+                    <h3 class="panel-title">Woningen</h3>
+                </div>
+                <div class="panel-body">
+                    <table>
+                        {% for woning in woningen %}
+                            <tr>
+                                <td>{{ woning.adres }}</td>
+                            </tr>
+                        {% endfor %}
+                    </table>
+                </div>
+            </div>
+        </div>
+
+    </div>
+
+    <div class="row">
+
+        <div class="col-sm-4">
+            <div class="panel panel-default">
+                <div class="panel-heading">
+                    <h3 class="panel-title">Inkomen</h3>
+                </div>
+                <div class="panel-body">
+                    <table class="table-inkomen">
+                        <tr>
+                            <th></th>
+                            <th>Bruto</th>
+                            <th>Netto</th>
+                        </tr>
+                        {% for belastingplichtige in belastingplichtigen %}
+                            <tr>
+                                <td>{{ belastingplichtige.naam }}</td>
+                                <td class="nr">{{ belastingplichtige.brutoinkomen|number_format }}</td>
+                                <td class="nr">{{ belastingplichtige.nettoinkomen|number_format }}</td>
+                            </tr>
+                        {% endfor %}
+                        <tr>
+                            <td><b>Verzamelinkomen</b></td>
+                            <td class="nr"><b>{{ huishouden.verzamelinkomen|number_format }}</b></td>
+                        </tr>
+                    </table>
+                </div>
+            </div>
+        </div>
+
+        <div class="col-sm-4">
+            <div class="panel panel-default">
+                <div class="panel-heading">
+                    <h3 class="panel-title">Toeslagen</h3>
+                </div>
+                <div class="panel-body">
+                    <table class="table-toeslag">
+                        <tr>
+                            <th></th>
+                            <th>jaar</th>
+                            <th>maand</th>
+                        </tr>
+                        <tr>
+                            <td>Zorgtoeslag</td>
+                            <td class="nr">{{ huishouden.zorgtoeslag|number_format }}</td>
+                            <td class="nr">{{ (huishouden.zorgtoeslag/12)|number_format(2) }}</td>
+                        </tr>
+                        <tr>
+                            <td>Huurtoeslag</td>
+                            <td class="nr">{{ huishouden.huurtoeslag|number_format }}</td>
+                            <td class="nr">{{ (huishouden.huurtoeslag/12)|number_format(2) }}</td>
+                        </tr>
+                        <tr>
+                            <td>Kinderopvangtoeslag</td>
+                            <td class="nr">{{ huishouden.kinderopvangtoeslag|number_format }}</td>
+                            <td class="nr">{{ (huishouden.kinderopvangtoeslag/12)|number_format(2) }}</td>
+                        </tr>
+                        <tr>
+                            <td>Kindgebonden Budget</td>
+                            <td class="nr">{{ huishouden.kindgebondenbudget|number_format }}</td>
+                            <td class="nr">{{ (huishouden.kindgebondenbudget/12)|number_format(2) }}</td>
+                        </tr>
+                        <tr>
+                            <td>KinderBijslag</td>
+                            <td class="nr">{{ huishouden.kinderbijslag(2015)|number_format }}</td>
+                            <td class="nr">{{ (huishouden.kinderbijslag(2015)/12)|number_format(2) }}</td>
+                        </tr>
+                    </table>
+                </div>
+            </div>
+        </div>
+
+    </div>
+
+
+
+
+
+
+
+{% endblock %}

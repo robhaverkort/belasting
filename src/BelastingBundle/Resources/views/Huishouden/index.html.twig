@@ -1,0 +1,16 @@
+{% extends 'BelastingBundle::base.html.twig' %}
+
+{% block title %}Huishoudens{% endblock %}
+
+{% block body %}
+
+    <table>
+        {% for huishouden in huishoudens %}
+            <tr>
+                <td width="20px">{{ huishouden.id }}</td>
+                <td><a href="{{ path('huishouden_view',{'huishouden_id':huishouden.id}) }}">{{ huishouden.naam }}</a></td>
+            </tr>
+        {% endfor %}
+    </table>
+        
+{% endblock %}

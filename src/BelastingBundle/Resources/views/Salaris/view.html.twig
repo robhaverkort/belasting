@@ -1,0 +1,122 @@
+{% extends 'BelastingBundle::base.html.twig' %}
+
+{% block title %}{{ huishouden.naam }}{% endblock %}
+
+{% block body %}
+
+    <div class="jumbotron">
+        <h1>Salaris</h1>
+        <p>Op deze pagina zie je snel ...</p>
+    </div>
+
+    <div class="page-header">
+        <h1>{{ huishouden.naam }}</h1>
+    </div>
+
+    <div class="row">
+
+        {% for belastingplichtige in belastingplichtigen %}
+            <div class="col-sm-6">
+                <div class="panel panel-default">
+                    <div class="panel-heading">
+                        <h3 class="panel-title">{{ belastingplichtige.naam }}</h3>
+                    </div>
+                    <div class="panel-body">
+                        <table class="table-salaris">
+                            <tr><td class="vet">Inkomsten</td></tr>
+                            {% for werkgever in belastingplichtige.werkgevers %}
+                                <tr>
+                                    <td>{{ werkgever.naam }}</td>
+                                    <td class="nr">{{ werkgever.brutosalaris|number_format }}</td>
+                                </tr>
+                            {% endfor %}
+                            <tr>
+                                <td>Eigen Woning</td>
+                                <td class="nr">{{ belastingplichtige.aftrekposten|number_format }}</td>
+                            </tr>
+                            <tr>
+                                <td class="vet">Belastbaar inkomen</td>
+                                <td class="vet nr">{{ belastingplichtige.belastbaarinkomen|number_format }}</td>
+                                <td class="vet nr">{{ belastingplichtige.belastbaarinkomen|number_format }}</td>
+                            </tr>
+                            <tr><td>&nbsp;</td></tr>
+                            <tr><td class="vet">Inkomstenbelasting</td></tr>
+                            <tr>
+                                <td>Inkomstenbelasting schijf 1 (8.35% x {{ belastingplichtige.inkomstenbelastingbedrag(1)|number_format }})</td>
+                                <td class="nr">{{ belastingplichtige.inkomstenbelasting(1)|number_format }}</td>
+                            </tr>
+                            <tr>
+                                <td>Inkomstenbelasting schijf 2 (13.85% x {{ belastingplichtige.inkomstenbelastingbedrag(2)|number_format }})</td>
+                                <td class="nr">{{ belastingplichtige.inkomstenbelasting(2)|number_format }}</td>
+                            </tr>
+                            <tr>
+                                <td>Inkomstenbelasting schijf 3 (42.00% x {{ belastingplichtige.inkomstenbelastingbedrag(3)|number_format }})</td>
+                                <td class="nr">{{ belastingplichtige.inkomstenbelasting(3)|number_format }}</td>
+                            </tr>
+                            <tr>
+                                <td>Inkomstenbelasting schijf 4 (52.00% x {{ belastingplichtige.inkomstenbelastingbedrag(4)|number_format }})</td>
+                                <td class="nr">{{ belastingplichtige.inkomstenbelasting(4)|number_format }}</td>
+                            </tr>
+                            <tr><td class="vet">premie volksverzekeringen</td></tr>
+                            <tr>
+                                <td>premie AOW (17.9% x {{ belastingplichtige.premieaowbedrag|number_format }})</td>
+                                <td class="nr">{{ belastingplichtige.premieaow|number_format }}</td>
+                            </tr>
+                            <tr>
+                                <td>premie Anw (0.6% x {{ belastingplichtige.premieanwbedrag|number_format }})</td>
+                                <td class="nr">{{ belastingplichtige.premieanw|number_format }}</td>
+                            </tr>
+                            <tr>
+                                <td>premie Wlz (9.65% x {{ belastingplichtige.premiewlzbedrag|number_format }})</td>
+                                <td class="nr">{{ belastingplichtige.premiewlz|number_format }}</td>
+                            </tr>
+                            <tr>
+                                <td class="vet">Totaal Inhoudingen</td>
+                                <td class="vet nr">{{ belastingplichtige.inhoudingen|number_format }}</td>
+                                <td class="vet nr">{{ belastingplichtige.inhoudingen|number_format }}</td>
+                            </tr>
+                            <tr><td>&nbsp;</td></tr>
+                            <tr><td class="vet">Heffingskortingen</td></tr>
+                            <tr>
+                            <tr>
+                                <td>Algemene Heffingskorting</td>
+                                <td class="nr">{{ belastingplichtige.algemeneheffingskorting|number_format }}</td>
+                            </tr>
+                            <tr>
+                                <td>Arbeidskorting</td>
+                                <td class="nr">{{ belastingplichtige.arbeidskorting|number_format }}</td>
+                            </tr>
+                            <tr>
+                                <td>Werkbonus</td>
+                                <td class="nr">{{ belastingplichtige.werkbonus|number_format }}</td>
+                            </tr>
+                            <tr>
+                                <td>Combinatiekorting</td>
+                                <td class="nr">{{ belastingplichtige.combinatiekorting|number_format }}</td>
+                            </tr>
+                            <tr>
+                                <td class="vet">Totaal Heffingskortingen</td>
+                                <td class="vet nr">{{ belastingplichtige.heffingskortingen|number_format }}</td>
+                                <td class="vet nr">{{ belastingplichtige.heffingskortingeneff|number_format }}</td>
+                            </tr>
+                            <tr><td>&nbsp;</td></tr>
+                            <tr>
+                                <td class="vet">Netto inkomen</td>
+                                <td></td>
+                                <td class="vet nr">{{ belastingplichtige.nettoinkomen|number_format }}</td>
+                            </tr>
+                        </table>
+                    </div>
+                </div>
+            </div>
+        {% endfor %}
+
+    </div>
+
+
+
+
+
+
+
+{% endblock %}
