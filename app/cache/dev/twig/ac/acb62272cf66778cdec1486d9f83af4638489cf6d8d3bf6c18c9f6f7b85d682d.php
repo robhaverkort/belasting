@@ -17,8 +17,8 @@ class __TwigTemplate_c310c9cb35ded31b6c67587815630e35ecb756c7d8356905ec55dd16e1a
 
     protected function doDisplay(array $context, array $blocks = array())
     {
-        $__internal_198bbb228954d3eb5ccef3cf038fbee8ec1b32e7c7c60a2eb0ee30fcc90b67c6 = $this->env->getExtension("native_profiler");
-        $__internal_198bbb228954d3eb5ccef3cf038fbee8ec1b32e7c7c60a2eb0ee30fcc90b67c6->enter($__internal_198bbb228954d3eb5ccef3cf038fbee8ec1b32e7c7c60a2eb0ee30fcc90b67c6_prof = new Twig_Profiler_Profile($this->getTemplateName(), "template", "BelastingBundle::base.html.twig"));
+        $__internal_078a18261866356d827978babcc271cd0a6ff34b4580d55e3b02d3ef744b88c4 = $this->env->getExtension("native_profiler");
+        $__internal_078a18261866356d827978babcc271cd0a6ff34b4580d55e3b02d3ef744b88c4->enter($__internal_078a18261866356d827978babcc271cd0a6ff34b4580d55e3b02d3ef744b88c4_prof = new Twig_Profiler_Profile($this->getTemplateName(), "template", "BelastingBundle::base.html.twig"));
 
         // line 1
         echo "<!DOCTYPE html>
@@ -77,65 +77,123 @@ class __TwigTemplate_c310c9cb35ded31b6c67587815630e35ecb756c7d8356905ec55dd16e1a
     </head>
 
     <body role=\"document\">
-        ";
-        // line 36
+
+        <!-- Fixed navbar -->
+        <nav class=\"navbar navbar-inverse navbar-fixed-top\">
+            <div class=\"container\">
+                <div class=\"navbar-header\">
+                    <button type=\"button\" class=\"navbar-toggle collapsed\" data-toggle=\"collapse\" data-target=\"#navbar\" aria-expanded=\"false\" aria-controls=\"navbar\">
+                        <span class=\"sr-only\">Toggle navigation</span>
+                        <span class=\"icon-bar\"></span>
+                        <span class=\"icon-bar\"></span>
+                        <span class=\"icon-bar\"></span>
+                    </button>
+                    <a class=\"navbar-brand\" href=\"";
+        // line 47
+        echo $this->env->getExtension('routing')->getPath("huishouden_list");
+        echo "\">Bootstrap theme</a>
+                </div>
+                <div id=\"navbar\" class=\"navbar-collapse collapse\">
+                    ";
+        // line 50
+        if (array_key_exists("huishouden", $context)) {
+            // line 51
+            echo "                        <ul class=\"nav navbar-nav\">
+                            <li class=\"active\"><a href=\"";
+            // line 52
+            echo twig_escape_filter($this->env, $this->env->getExtension('routing')->getPath("huishouden_view", array("huishouden_id" => $this->getAttribute((isset($context["huishouden"]) ? $context["huishouden"] : $this->getContext($context, "huishouden")), "id", array()))), "html", null, true);
+            echo "\">Overzicht</a></li>
+                            <li><a href=\"#about\">About</a></li>
+                            <li><a href=\"#contact\">Contact</a></li>
+                            <li class=\"dropdown\">
+                                <a href=\"#\" class=\"dropdown-toggle\" data-toggle=\"dropdown\" role=\"button\" aria-haspopup=\"true\" aria-expanded=\"false\">Details <span class=\"caret\"></span></a>
+                                <ul class=\"dropdown-menu\">
+                                    <li class=\"dropdown-header\">Inkomsten</li>
+                                    <li><a href=\"";
+            // line 59
+            echo twig_escape_filter($this->env, $this->env->getExtension('routing')->getPath("salaris_view", array("huishouden_id" => $this->getAttribute((isset($context["huishouden"]) ? $context["huishouden"] : $this->getContext($context, "huishouden")), "id", array()))), "html", null, true);
+            echo "\">Salaris</a></li>
+                                    <li><a href=\"";
+            // line 60
+            echo twig_escape_filter($this->env, $this->env->getExtension('routing')->getPath("toeslag_list", array("huishouden_id" => $this->getAttribute((isset($context["huishouden"]) ? $context["huishouden"] : $this->getContext($context, "huishouden")), "id", array()))), "html", null, true);
+            echo "\">Toeslagen</a></li>
+                                    <li role=\"separator\" class=\"divider\"></li>
+                                    <li class=\"dropdown-header\">Uitgaven</li>
+                                    <li><a href=\"#\">Woning</a></li>
+                                    <li><a href=\"#\">Kinderen</a></li>
+                                    <li><a href=\"#\">Zorg</a></li>
+                                    <li><a href=\"#\">Auto</a></li>
+                                </ul>
+                            </li>
+                        </ul>
+                    ";
+        }
+        // line 71
+        echo "                </div><!--/.nav-collapse -->
+            </div>
+        </nav>
+
+        <div class=\"container theme-showcase\" role=\"main\">
+            ";
+        // line 76
         $this->displayBlock('body', $context, $blocks);
-        // line 39
-        echo "
+        // line 79
+        echo "        </div>
+
         <!-- Bootstrap core JavaScript
         ================================================== -->
         <!-- Placed at the end of the document so the pages load faster -->
         <script src=\"";
-        // line 43
+        // line 84
         echo twig_escape_filter($this->env, $this->env->getExtension('asset')->getAssetUrl("bundles/jquery/jquery.min.js"), "html", null, true);
         echo "\"></script>
         <script>window.jQuery || document.write('<script src=\"";
-        // line 44
+        // line 85
         echo twig_escape_filter($this->env, $this->env->getExtension('asset')->getAssetUrl("bundles/jquery/jquery.min.js"), "html", null, true);
         echo "\"><\\/script>')</script>
         <script src=\"";
-        // line 45
+        // line 86
         echo twig_escape_filter($this->env, $this->env->getExtension('asset')->getAssetUrl("bundles/bootstrap/docs/dist/js/bootstrap.min.js"), "html", null, true);
         echo "\"></script>
         <script src=\"";
-        // line 46
+        // line 87
         echo twig_escape_filter($this->env, $this->env->getExtension('asset')->getAssetUrl("bundles/bootstrap/docs/assets/js/docs.min.js"), "html", null, true);
         echo "\"></script>
         <!-- IE10 viewport hack for Surface/desktop Windows 8 bug -->
         <script src=\"";
-        // line 48
+        // line 89
         echo twig_escape_filter($this->env, $this->env->getExtension('asset')->getAssetUrl("bundles/bootstrap/docs/assets/js/ie10-viewport-bug-workaround.js"), "html", null, true);
         echo "\"></script>
     </body>
 </html>
 ";
         
-        $__internal_198bbb228954d3eb5ccef3cf038fbee8ec1b32e7c7c60a2eb0ee30fcc90b67c6->leave($__internal_198bbb228954d3eb5ccef3cf038fbee8ec1b32e7c7c60a2eb0ee30fcc90b67c6_prof);
+        $__internal_078a18261866356d827978babcc271cd0a6ff34b4580d55e3b02d3ef744b88c4->leave($__internal_078a18261866356d827978babcc271cd0a6ff34b4580d55e3b02d3ef744b88c4_prof);
 
     }
 
     // line 12
     public function block_title($context, array $blocks = array())
     {
-        $__internal_0ef2e7f4f542f530a45c981f01d351d120c4b547530fb45fc2e357f225a241dc = $this->env->getExtension("native_profiler");
-        $__internal_0ef2e7f4f542f530a45c981f01d351d120c4b547530fb45fc2e357f225a241dc->enter($__internal_0ef2e7f4f542f530a45c981f01d351d120c4b547530fb45fc2e357f225a241dc_prof = new Twig_Profiler_Profile($this->getTemplateName(), "block", "title"));
+        $__internal_6807e8f6b6d9cbde7d9e942bc1b1fcbad9082012464256e71abc2e31ecdb6b47 = $this->env->getExtension("native_profiler");
+        $__internal_6807e8f6b6d9cbde7d9e942bc1b1fcbad9082012464256e71abc2e31ecdb6b47->enter($__internal_6807e8f6b6d9cbde7d9e942bc1b1fcbad9082012464256e71abc2e31ecdb6b47_prof = new Twig_Profiler_Profile($this->getTemplateName(), "block", "title"));
 
         
-        $__internal_0ef2e7f4f542f530a45c981f01d351d120c4b547530fb45fc2e357f225a241dc->leave($__internal_0ef2e7f4f542f530a45c981f01d351d120c4b547530fb45fc2e357f225a241dc_prof);
+        $__internal_6807e8f6b6d9cbde7d9e942bc1b1fcbad9082012464256e71abc2e31ecdb6b47->leave($__internal_6807e8f6b6d9cbde7d9e942bc1b1fcbad9082012464256e71abc2e31ecdb6b47_prof);
 
     }
 
-    // line 36
+    // line 76
     public function block_body($context, array $blocks = array())
     {
-        $__internal_f9e0e72aaf7be374453b8c76ac8479a40348edf15104b3b82f45e6b20adc157e = $this->env->getExtension("native_profiler");
-        $__internal_f9e0e72aaf7be374453b8c76ac8479a40348edf15104b3b82f45e6b20adc157e->enter($__internal_f9e0e72aaf7be374453b8c76ac8479a40348edf15104b3b82f45e6b20adc157e_prof = new Twig_Profiler_Profile($this->getTemplateName(), "block", "body"));
+        $__internal_34b46b635727f72373e53ac76dac2e868f6010005ed77dfad5dacbc45e298918 = $this->env->getExtension("native_profiler");
+        $__internal_34b46b635727f72373e53ac76dac2e868f6010005ed77dfad5dacbc45e298918->enter($__internal_34b46b635727f72373e53ac76dac2e868f6010005ed77dfad5dacbc45e298918_prof = new Twig_Profiler_Profile($this->getTemplateName(), "block", "body"));
 
-        // line 37
+        // line 77
         echo "
-        ";
+            ";
         
-        $__internal_f9e0e72aaf7be374453b8c76ac8479a40348edf15104b3b82f45e6b20adc157e->leave($__internal_f9e0e72aaf7be374453b8c76ac8479a40348edf15104b3b82f45e6b20adc157e_prof);
+        $__internal_34b46b635727f72373e53ac76dac2e868f6010005ed77dfad5dacbc45e298918->leave($__internal_34b46b635727f72373e53ac76dac2e868f6010005ed77dfad5dacbc45e298918_prof);
 
     }
 
@@ -151,7 +209,7 @@ class __TwigTemplate_c310c9cb35ded31b6c67587815630e35ecb756c7d8356905ec55dd16e1a
 
     public function getDebugInfo()
     {
-        return array (  135 => 37,  129 => 36,  118 => 12,  107 => 48,  102 => 46,  98 => 45,  94 => 44,  90 => 43,  84 => 39,  82 => 36,  69 => 26,  62 => 22,  56 => 19,  51 => 17,  46 => 15,  40 => 12,  35 => 10,  24 => 1,);
+        return array (  193 => 77,  187 => 76,  176 => 12,  165 => 89,  160 => 87,  156 => 86,  152 => 85,  148 => 84,  141 => 79,  139 => 76,  132 => 71,  118 => 60,  114 => 59,  104 => 52,  101 => 51,  99 => 50,  93 => 47,  69 => 26,  62 => 22,  56 => 19,  51 => 17,  46 => 15,  40 => 12,  35 => 10,  24 => 1,);
     }
 }
 /* <!DOCTYPE html>*/
@@ -189,9 +247,50 @@ class __TwigTemplate_c310c9cb35ded31b6c67587815630e35ecb756c7d8356905ec55dd16e1a
 /*     </head>*/
 /* */
 /*     <body role="document">*/
-/*         {% block body %}*/
 /* */
-/*         {% endblock %}*/
+/*         <!-- Fixed navbar -->*/
+/*         <nav class="navbar navbar-inverse navbar-fixed-top">*/
+/*             <div class="container">*/
+/*                 <div class="navbar-header">*/
+/*                     <button type="button" class="navbar-toggle collapsed" data-toggle="collapse" data-target="#navbar" aria-expanded="false" aria-controls="navbar">*/
+/*                         <span class="sr-only">Toggle navigation</span>*/
+/*                         <span class="icon-bar"></span>*/
+/*                         <span class="icon-bar"></span>*/
+/*                         <span class="icon-bar"></span>*/
+/*                     </button>*/
+/*                     <a class="navbar-brand" href="{{ path('huishouden_list') }}">Bootstrap theme</a>*/
+/*                 </div>*/
+/*                 <div id="navbar" class="navbar-collapse collapse">*/
+/*                     {% if huishouden is defined %}*/
+/*                         <ul class="nav navbar-nav">*/
+/*                             <li class="active"><a href="{{ path('huishouden_view',{'huishouden_id':huishouden.id}) }}">Overzicht</a></li>*/
+/*                             <li><a href="#about">About</a></li>*/
+/*                             <li><a href="#contact">Contact</a></li>*/
+/*                             <li class="dropdown">*/
+/*                                 <a href="#" class="dropdown-toggle" data-toggle="dropdown" role="button" aria-haspopup="true" aria-expanded="false">Details <span class="caret"></span></a>*/
+/*                                 <ul class="dropdown-menu">*/
+/*                                     <li class="dropdown-header">Inkomsten</li>*/
+/*                                     <li><a href="{{ path('salaris_view',{'huishouden_id':huishouden.id}) }}">Salaris</a></li>*/
+/*                                     <li><a href="{{ path('toeslag_list',{'huishouden_id':huishouden.id}) }}">Toeslagen</a></li>*/
+/*                                     <li role="separator" class="divider"></li>*/
+/*                                     <li class="dropdown-header">Uitgaven</li>*/
+/*                                     <li><a href="#">Woning</a></li>*/
+/*                                     <li><a href="#">Kinderen</a></li>*/
+/*                                     <li><a href="#">Zorg</a></li>*/
+/*                                     <li><a href="#">Auto</a></li>*/
+/*                                 </ul>*/
+/*                             </li>*/
+/*                         </ul>*/
+/*                     {% endif %}*/
+/*                 </div><!--/.nav-collapse -->*/
+/*             </div>*/
+/*         </nav>*/
+/* */
+/*         <div class="container theme-showcase" role="main">*/
+/*             {% block body %}*/
+/* */
+/*             {% endblock %}*/
+/*         </div>*/
 /* */
 /*         <!-- Bootstrap core JavaScript*/
 /*         ================================================== -->*/

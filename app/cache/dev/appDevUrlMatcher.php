@@ -114,6 +114,29 @@ class appDevUrlMatcher extends Symfony\Bundle\FrameworkBundle\Routing\Redirectab
             return array (  '_controller' => 'BelastingBundle\\Controller\\DefaultController::indexAction',  '_route' => 'belasting_default_index',);
         }
 
+        if (0 === strpos($pathinfo, '/huishouden')) {
+            // huishouden_list
+            if ($pathinfo === '/huishouden') {
+                return array (  '_controller' => 'BelastingBundle\\Controller\\HuishoudenController::indexAction',  '_route' => 'huishouden_list',);
+            }
+
+            // huishouden_view
+            if (preg_match('#^/huishouden/(?P<huishouden_id>[^/]++)$#s', $pathinfo, $matches)) {
+                return $this->mergeDefaults(array_replace($matches, array('_route' => 'huishouden_view')), array (  '_controller' => 'BelastingBundle\\Controller\\HuishoudenController::viewAction',));
+            }
+
+        }
+
+        // salaris_view
+        if (0 === strpos($pathinfo, '/salaris') && preg_match('#^/salaris/(?P<huishouden_id>[^/]++)$#s', $pathinfo, $matches)) {
+            return $this->mergeDefaults(array_replace($matches, array('_route' => 'salaris_view')), array (  '_controller' => 'BelastingBundle\\Controller\\SalarisController::viewAction',));
+        }
+
+        // toeslag_list
+        if (0 === strpos($pathinfo, '/toeslag') && preg_match('#^/toeslag/(?P<huishouden_id>[^/]++)$#s', $pathinfo, $matches)) {
+            return $this->mergeDefaults(array_replace($matches, array('_route' => 'toeslag_list')), array (  '_controller' => 'BelastingBundle\\Controller\\ToeslagController::indexAction',));
+        }
+
         // homepage
         if (rtrim($pathinfo, '/') === '') {
             if (substr($pathinfo, -1) !== '/') {

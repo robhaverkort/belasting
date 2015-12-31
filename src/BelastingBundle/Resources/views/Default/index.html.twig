@@ -3,66 +3,187 @@
 {% block title %}Belasting{% endblock %}
 
 {% block body %}
-    Hello World.
-    
-        <div class="page-header">
-        <h1>Labels</h1>
-    </div>
-    <h1>
-        <span class="label label-default">Default</span>
-        <span class="label label-primary">Primary</span>
-        <span class="label label-success">Success</span>
-        <span class="label label-info">Info</span>
-        <span class="label label-warning">Warning</span>
-        <span class="label label-danger">Danger</span>
-    </h1>
-    <h2>
-        <span class="label label-default">Default</span>
-        <span class="label label-primary">Primary</span>
-        <span class="label label-success">Success</span>
-        <span class="label label-info">Info</span>
-        <span class="label label-warning">Warning</span>
-        <span class="label label-danger">Danger</span>
-    </h2>
-    <h3>
-        <span class="label label-default">Default</span>
-        <span class="label label-primary">Primary</span>
-        <span class="label label-success">Success</span>
-        <span class="label label-info">Info</span>
-        <span class="label label-warning">Warning</span>
-        <span class="label label-danger">Danger</span>
-    </h3>
-    <h4>
-        <span class="label label-default">Default</span>
-        <span class="label label-primary">Primary</span>
-        <span class="label label-success">Success</span>
-        <span class="label label-info">Info</span>
-        <span class="label label-warning">Warning</span>
-        <span class="label label-danger">Danger</span>
-    </h4>
-    <h5>
-        <span class="label label-default">Default</span>
-        <span class="label label-primary">Primary</span>
-        <span class="label label-success">Success</span>
-        <span class="label label-info">Info</span>
-        <span class="label label-warning">Warning</span>
-        <span class="label label-danger">Danger</span>
-    </h5>
-    <h6>
-        <span class="label label-default">Default</span>
-        <span class="label label-primary">Primary</span>
-        <span class="label label-success">Success</span>
-        <span class="label label-info">Info</span>
-        <span class="label label-warning">Warning</span>
-        <span class="label label-danger">Danger</span>
-    </h6>
-    <p>
-        <span class="label label-default">Default</span>
-        <span class="label label-primary">Primary</span>
-        <span class="label label-success">Success</span>
-        <span class="label label-info">Info</span>
-        <span class="label label-warning">Warning</span>
-        <span class="label label-danger">Danger</span>
-    </p>
+    Belasting Berekening.
 
+    {{ form_start(form) }}
+    {{ form_errors(form) }}
+    <table>
+        <tr>
+            <td>{{ form_label(form.naam_1) }}</td>
+            <td>{{ form_widget(form.naam_1) }}</td>
+            <td>{{ form_errors(form.naam_1) }}</td>
+        </tr>
+        <tr>
+            <td>{{ form_label(form.bruto_salaris_1) }}</td>
+            <td>{{ form_widget(form.bruto_salaris_1) }}</td>
+            <td>{{ form_errors(form.bruto_salaris_1) }}</td>
+        </tr>
+        <tr>
+            <td>{{ form_label(form.naam_2) }}</td>
+            <td>{{ form_widget(form.naam_2) }}</td>
+            <td>{{ form_errors(form.naam_2) }}</td>
+        </tr>
+        <tr>
+            <td>{{ form_label(form.bruto_salaris_2) }}</td>
+            <td>{{ form_widget(form.bruto_salaris_2) }}</td>
+            <td>{{ form_errors(form.bruto_salaris_2) }}</td>
+        </tr>
+        <tr>
+            <td>{{ form_label(form.eigenwoning_woz) }}</td>
+            <td>{{ form_widget(form.eigenwoning_woz) }}</td>
+            <td>{{ form_errors(form.eigenwoning_woz) }}</td>
+        </tr>
+        <tr>
+            <td>{{ form_label(form.eigenwoning_rente) }}</td>
+            <td>{{ form_widget(form.eigenwoning_rente) }}</td>
+            <td>{{ form_errors(form.eigenwoning_rente) }}</td>
+        </tr>
+
+        <tr>
+            <td></td>
+            <td>{{ form_widget(form.save) }}</td>
+        </tr>
+    </table>        
+    {{ form_end(form) }}
+
+    <table>
+        <col width="240px">
+        <col width="80px">
+        <col width="80px">
+        <col width="80px">
+        <col width="80px">
+        <col width="80px">
+        <tr>
+            <th>naam</td>
+            <th></th>
+            <th>{{ data.naam_1 }}</th>
+            <td></td>
+            <th>{{ data.naam_2 }}</th>
+        </tr>
+        <tr>
+            <td>bruto salaris</td>
+            <td></td>
+            <td>{{ data.bruto_salaris_1|number_format }}</td>
+            <td></td>
+            <td>{{ data.bruto_salaris_2|number_format }}</td>
+        </tr>    
+        <tr>
+            <td>Eigen Woning WOZ</td>
+            <td>{{ data.eigenwoning_woz|number_format }}</td>
+        </tr>    
+        <tr>
+            <td>Eigen Woning Rente</td>
+            <td>{{ data.eigenwoning_rente|number_format }}</td>
+        </tr>    
+        <tr>
+            <td>Eigen Woning Forfait</td>
+            <td>{{ data.eigenwoning_forfait|number_format }}</td>
+        </tr>    
+        <tr>
+            <td>Eigen Woning Opbrengst</td>
+            <td>{{ data.eigenwoning_opbrengst|number_format }}</td>
+        </tr>    
+        <tr>
+            <td>belastbaar</td>
+            <td></td>
+            <td>{{ data.belastbaar_1|number_format }}</td>
+            <td></td>
+            <td>{{ data.belastbaar_2|number_format }}</td>
+        </tr>
+        <tr>
+            <th>LoonBelasting</th>
+        </tr>
+        <tr>
+            <td>schijf 1</td>
+            <td></td>
+            <td>{{ data.belastbaar_schijf1_1|number_format }}</td>
+            <td>{{ data.loonbelasting_schijf1_1|number_format }}</td>
+            <td>{{ data.belastbaar_schijf1_2|number_format }}</td>
+            <td>{{ data.loonbelasting_schijf1_2|number_format }}</td>
+        </tr>    
+        <tr>
+            <td>schijf 2</td>
+            <td></td>
+            <td>{{ data.belastbaar_schijf2_1|number_format }}</td>
+            <td>{{ data.loonbelasting_schijf2_1|number_format }}</td>
+            <td>{{ data.belastbaar_schijf2_2|number_format }}</td>
+            <td>{{ data.loonbelasting_schijf2_2|number_format }}</td>
+        </tr>    
+        <tr>
+            <td>schijf 3</td>
+            <td></td>
+            <td>{{ data.belastbaar_schijf3_1|number_format }}</td>
+            <td>{{ data.loonbelasting_schijf3_1|number_format }}</td>
+            <td>{{ data.belastbaar_schijf3_2|number_format }}</td>
+            <td>{{ data.loonbelasting_schijf3_2|number_format }}</td>
+        </tr>    
+        <tr>
+            <td>schijf 4</td>
+            <td></td>
+            <td>{{ data.belastbaar_schijf4_1|number_format }}</td>
+            <td>{{ data.loonbelasting_schijf4_1|number_format }}</td>
+            <td>{{ data.belastbaar_schijf4_2|number_format }}</td>
+            <td>{{ data.loonbelasting_schijf4_2|number_format }}</td>
+        </tr>    
+        <tr>
+            <th>premie Volksverzekeringen</th>
+        </tr>
+        <tr>
+            <td>premie AOW</td>
+            <td></td>
+            <td>{{ data.belastbaar_aow_1|number_format }}</td>
+            <td>{{ data.premie_aow_1|number_format }}</td>
+            <td>{{ data.belastbaar_aow_2|number_format }}</td>
+            <td>{{ data.premie_aow_2|number_format }}</td>
+        </tr>    
+        <tr>
+            <td>premie Anw</td>
+            <td></td>
+            <td>{{ data.belastbaar_anw_1|number_format }}</td>
+            <td>{{ data.premie_anw_1|number_format }}</td>
+            <td>{{ data.belastbaar_anw_2|number_format }}</td>
+            <td>{{ data.premie_anw_2|number_format }}</td>
+        </tr>    
+        <tr>
+            <td>premie Wlz</td>
+            <td></td>
+            <td>{{ data.belastbaar_wlz_1|number_format }}</td>
+            <td>{{ data.premie_wlz_1|number_format }}</td>
+            <td>{{ data.belastbaar_wlz_2|number_format }}</td>
+            <td>{{ data.premie_wlz_2|number_format }}</td>
+        </tr>    
+        <tr>
+            <th>Heffingskortingen</th>
+        </tr>
+        <tr>
+            <td>Algemene HeffingsKorting</td>
+        </tr>
+        <tr>
+            <td>Arbeidskorting</td>
+        </tr>
+        <tr>
+            <td>Werkbonus</td>
+        </tr>
+        <tr>
+            <td>CombinatieKorting</td>
+        </tr>
+        <tr>
+            <th>Toeslagen</th>
+        </tr>
+        <tr>
+            <td>ZorgToeslag</td>
+        </tr>
+        <tr>
+            <td>HuurToeslag</td>
+        </tr>
+        <tr>
+            <td>KinderopvangToeslag</td>
+        </tr>
+        <tr>
+            <td>Kindgebonden Budget</td>
+        </tr>
+        <tr>
+            <td>KinderBijslag</td>
+        </tr>
+    </table>
 {% endblock %}
