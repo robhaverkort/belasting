@@ -54,7 +54,7 @@ class Huishouden {
      *  BEREKENINGEN
      */
 
-    public function getVerzamelinkomen() {
+    public function getVerzamelinkomen($jaar = 2015) {
         $verzamelinkomen = 0;
         foreach ($this->getBelastingplichtigen() as $belastingplichtige) {
             $verzamelinkomen += $belastingplichtige->getBelastbaarinkomen();
@@ -62,62 +62,50 @@ class Huishouden {
         return $verzamelinkomen;
     }
 
-    public function getZorgtoeslag() {
-        $toeslag[] = [0, 78, 149];
-        $toeslag[] = [19000, 78, 149];
-        $toeslag[] = [19500, 78, 148];
-        $toeslag[] = [20000, 72, 143];
-        $toeslag[] = [20500, 66, 137];
-        $toeslag[] = [21000, 61, 132];
-        $toeslag[] = [21500, 55, 126];
-        $toeslag[] = [22000, 50, 120];
-        $toeslag[] = [22500, 44, 115];
-        $toeslag[] = [23000, 39, 109];
-        $toeslag[] = [23500, 33, 104];
-        $toeslag[] = [24000, 27, 98];
-        $toeslag[] = [24500, 22, 93];
-        $toeslag[] = [25000, 16, 87];
-        $toeslag[] = [25500, 11, 81];
-        $toeslag[] = [26000, 5, 76];
-        $toeslag[] = [26500, 0, 70];
-        $toeslag[] = [27000, 0, 65];
-        $toeslag[] = [27500, 0, 59];
-        $toeslag[] = [28000, 0, 53];
-        $toeslag[] = [28500, 0, 48];
-        $toeslag[] = [29000, 0, 42];
-        $toeslag[] = [29500, 0, 37];
-        $toeslag[] = [30000, 0, 31];
-        $toeslag[] = [30500, 0, 26];
-        $toeslag[] = [31000, 0, 20];
-        $toeslag[] = [31500, 0, 14];
-        $toeslag[] = [32000, 0, 9];
-        $toeslag[] = [32500, 0, 3];
-        $toeslag[] = [33000, 0, 0];
-        end($toeslag);
-        while ($this->getVerzamelinkomen() < current($toeslag)[0])
-            prev($toeslag);
-        return 12 * current($toeslag)[2];
+    public function getZorgtoeslag($jaar = 2016) {
+        // 2015
+        $zt[2015]['SP'] = 1408;
+        $zt[2015]['Drempel'] = 19463;
+        $zt[2015]['TDA'] = 2.395;
+        $zt[2015]['BDA'] = 13.400;
+        $zt[2015]['TDMT'] = 5.265;
+        $zt[2015]['BDMT'] = 13.400;
+        $zt[2015]['MxInk1'] = 26316;
+        $zt[2015]['MxInk2'] = 32655;
+        $zt[2016]['VrijZTKGB65enkel'] = 103423;
+        $zt[2016]['VrijZTKGB65gez'] = 124753;
+        // 2016
+        $zt[2016]['SP'] = 1468;
+        $zt[2016]['Drempel'] = 19758;
+        $zt[2016]['TDA'] = 2.380;
+        $zt[2016]['BDA'] = 13.430;
+        $zt[2016]['TDMT'] = 5.220;
+        $zt[2016]['BDMT'] = 13.430;
+        $zt[2016]['MxInk1'] = 27012;
+        $zt[2016]['MxInk2'] = 33765;
+        $zt[2016]['VrijZTKGB65enkel'] = 106941;
+        $zt[2016]['VrijZTKGB65gez'] = 131378;
+        switch (sizeof($this->getBelastingplichtigen())) {
+            case 1:
+                $normpremie = $zt[$jaar]['TDA'] / 100 * $zt[$jaar]['Drempel'];
+                $normpremie += $zt[$jaar]['BDA'] * max(0, ($this->getVerzamelinkomen($jaar) - $zt[$jaar]['Drempel']));
+                $zt = max(0, $zt[$jaar]['SP'] - $normpremie);
+                break;
+            case 2:
+                $normpremie = $zt[$jaar]['TDMT'] / 100 * $zt[$jaar]['Drempel'];
+                $normpremie += $zt[$jaar]['BDMT'] * max(0, ($this->getVerzamelinkomen($jaar) - $zt[$jaar]['Drempel']));
+                $zt = max(0, 2 * $zt[$jaar]['SP'] - $normpremie);
+                break;
+        }
+        return $zt;
     }
 
-    public function getHuurtoeslag() {
+    public function getHuurtoeslag($jaar = 2015) {
         return 0;
     }
 
-    public function getKinderbijslagkwartaal($jaar = NULL, $kwartaal = NULL) {
-        switch($kwartaal){
-            case 1:
-                $maand=1;
-                break;
-            case 2:
-                $maand=4;
-                break;
-            case 3:
-                $maand=7;
-                break;
-            case 4:
-                $maand=10;
-                break;
-        }
+    public function getKinderbijslagkwartaal($jaar = 2015, $kwartaal = 1) {
+        $maand = ($kwartaal - 1) * 3 + 1;
         $kinderbijslag = 0;
         foreach ($this->getKinderen() as $kind) {
             if ($kind->getLeeftijd($jaar, $maand) <= 5) {
@@ -131,12 +119,12 @@ class Huishouden {
         return $kinderbijslag;
     }
 
-    public function getKinderbijslag($jaar) {
+    public function getKinderbijslag($jaar = 2015) {
         return
-                $this->getKinderbijslagkwartaal(2015, 1) +
-                $this->getKinderbijslagkwartaal(2015, 2) +
-                $this->getKinderbijslagkwartaal(2015, 3) +
-                $this->getKinderbijslagkwartaal(2015, 4);
+                $this->getKinderbijslagkwartaal($jaar, 1) +
+                $this->getKinderbijslagkwartaal($jaar, 2) +
+                $this->getKinderbijslagkwartaal($jaar, 3) +
+                $this->getKinderbijslagkwartaal($jaar, 4);
     }
 
     public function getKinderopvangtoeslagpercentage($jaar, $kind) {
@@ -288,7 +276,7 @@ class Huishouden {
         return 0;
     }
 
-    public function getKinderopvangtoeslag() {
+    public function getKinderopvangtoeslag($jaar = 2015) {
         $kinderen = $this->getKinderen();
         foreach ($kinderen as $kind) {
             $kinderopvang = $kind->getKinderopvang();
@@ -318,9 +306,7 @@ class Huishouden {
         $kgb[2016]['VHgeenTP'] = 3066;
         $kgb[2016]['Tslg'] = 6.75;
         $kgb[2016]['Drempel'] = 19758;
-
-// per maand berekenen
-
+        // per maand berekenen
         $aantalkinderen = 0;
         $toeslag = 0;
         foreach ($this->getKinderen() as $kind) {
@@ -338,15 +324,7 @@ class Huishouden {
         $toeslag += max(0, $aantalkinderen - 3) * $kgb[$jaar]['extrakind']; // meer dan 3 kinderen
         $toeslag += sizeof($this->getBelastingplichtigen()) < 2 ? $kgb[$jaar]['VHgeenTP'] : 0; // geen partner
         $toeslag -= min($toeslag, $kgb[$jaar]['Tslg'] / 100 * max(0, ($this->getVerzamelinkomen() - $kgb[2015]['Drempel']))); // Afbouw
-
         return $toeslag / 12;
-
-        $aantalkinderen = sizeof($this->getKinderen());
-        $kindgebondenbudget = $kgb[$jaar][min(3, $aantalkinderen)]; // standaard toeslag
-        $kindgebondenbudget += max(0, $aantalkinderen - 3) * $kgb[$jaar]['extrakind']; // meer dan 3 kinderen
-        $kindgebondenbudget += sizeof($this->getBelastingplichtigen()) < 2 ? $kgb[$jaar]['VHgeenTP'] : 0; // geen partner
-        $kindgebondenbudget -= min($kindgebondenbudget, $kgb[$jaar]['Tslg'] / 100 * max(0, ($this->getVerzamelinkomen() - $kgb[2015]['Drempel']))); // Afbouw
-        return $kindgebondenbudget;
     }
 
     public function getKindgebondenbudget($jaar = 2015) {
@@ -357,12 +335,42 @@ class Huishouden {
         return $kindgebondenbudget;
     }
 
-    public function hasKind12() {
+    public function hasKind12($jaar = 2015) {
         foreach ($this->getKinderen() as $kind) {
-            if ($kind->getLeeftijd(2015, 1) < 12)
+            if ($kind->getLeeftijd($jaar, 1) < 12)
                 return true;
         }
         return false;
+    }
+
+    public function getInkomsten($jaar = 2015) {
+        $inkomsten = array();
+        $inkomsten['salaris ' . $this->getBelastingplichtigen()[0]->getNaam()] = $this->getBelastingplichtigen()[0]->getNettoinkomen();
+        $inkomsten['salaris ' . $this->getBelastingplichtigen()[1]->getNaam()] = $this->getBelastingplichtigen()[1]->getNettoinkomen();
+        $inkomsten['ZorgToeslag'] = $this->getZorgtoeslag();
+        $inkomsten['HuurToeslag'] = $this->getHuurtoeslag();
+        $inkomsten['KinderOpvangToeslag'] = $this->getKinderopvangtoeslag();
+        $inkomsten['Kinderbijslag'] = $this->getKinderbijslag(2015);
+        $inkomsten['KindGebonden Budget'] = $this->getKindgebondenbudget();
+        return $inkomsten;
+    }
+
+    public function getInkomstentotaal($jaar = 2015) {
+        return 0;
+    }
+
+    public function getUitgaven($jaar = 2015) {
+        $uitgaven = array();
+        $uitgaven['Hypotheekrente'] = $this->getWoningen()[0]->getBetaalderente();
+        $uitgaven['Huur'] = 12 * $this->getWoningen()[0]->getKalehuur();
+        $uitgaven['Servicekosten'] = 12 * $this->getWoningen()[0]->getServicekosten();
+        $uitgaven['Zorgverzekering'] = 2 * 12 * 100;
+        $uitgaven['KinderOpvang'] = 0;
+        return $uitgaven;
+    }
+
+    public function getUitgaventotaal($jaar = 2015) {
+        return 0;
     }
 
     /*

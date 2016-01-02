@@ -1,0 +1,90 @@
+{% extends 'BelastingBundle::base.html.twig' %}
+
+{% block title %}{{ huishouden.naam }}{% endblock %}
+
+{% block body %}
+
+    <div class="jumbotron">
+        <h1>Overzicht</h1>
+        <p>Op deze pagina zie je snel de samenstelling van je familie, je netto inkomen en eventuele toeslagen waar je recht op hebt.</p>
+    </div>
+
+    <div class="page-header">
+        <h1>{{ huishouden.naam }}</h1>
+    </div>
+
+
+    <div class="row">
+
+        <div class="col-sm-4">
+            <div class="panel panel-default">
+                <div class="panel-heading">
+                    <h3 class="panel-title">Inkomsten</h3>
+                </div>
+                <div class="panel-body">
+                    <table class="table-salaris">
+                        {% for ink in huishouden.inkomsten|keys %}
+                            <tr>
+                                <td>{{ ink }}</td>
+                                <td class="nr">{{ huishouden.inkomsten[ink]|number_format }}</td>
+                            </tr>
+                        {% endfor %}
+                    </table>
+                </div>
+            </div>
+        </div>
+
+        <div class="col-sm-4">
+            <div class="panel panel-default">
+                <div class="panel-heading">
+                    <h3 class="panel-title">Uitgaven</h3>
+                </div>
+                <div class="panel-body">
+                    <table class="table-salaris">
+                        {% for uitg in huishouden.uitgaven|keys %}
+                            <tr>
+                                <td>{{ uitg }}</td>
+                                <td class="nr">{{ huishouden.uitgaven[uitg]|number_format }}</td>
+                            </tr>
+                        {% endfor %}
+                    </table>
+                </div>
+            </div>
+        </div>
+
+        <div class="col-sm-4">
+            <div class="panel panel-default">
+                <div class="panel-heading">
+                    <h3 class="panel-title">Te besteden</h3>
+                </div>
+                <div class="panel-body">
+                    <table class="table-salaris">
+                        <tr>
+                            <td>Inkomsten</td>
+                            <td>{{ huishouden.inkomstentotaal|number_format }}</td>
+                            <td>{{ (huishouden.inkomstentotaal/12)|number_format(2) }}</td>
+                        </tr>
+                        <tr>
+                            <td>Uitgaven</td>
+                            <td>{{ huishouden.uitgaventotaal|number_format }}</td>
+                            <td>{{ (huishouden.uitgaventotaal/12)|number_format(2) }}</td>
+                        </tr>
+                        <tr>
+                            <td>Te besteden</td>
+                            <td>{{ (huishouden.inkomstentotaal-huishouden.uitgaventotaal)|number_format }}</td>
+                            <td>{{ ((huishouden.inkomstentotaal-huishouden.uitgaventotaal)/12)|number_format(2) }}</td>
+                        </tr>
+                    </table>
+                </div>
+            </div>
+        </div>
+
+    </div>
+
+
+
+
+
+
+
+{% endblock %}

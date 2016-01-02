@@ -37,4 +37,25 @@ class HuishoudenController extends Controller {
         ));
     }
 
+    /**
+     * @Route("/huishouden/huishoudboekje/{huishouden_id}", name="huishouden_huishoudboekje")
+     */
+    public function huishoudboekjeAction($huishouden_id) {
+        $huishouden = $this->getDoctrine()->getRepository('BelastingBundle:Huishouden')
+                ->find($huishouden_id);
+        $belastingplichtigen = $this->getDoctrine()->getRepository('BelastingBundle:Belastingplichtige')
+                ->findByHuishouden($huishouden);
+        $kinderen = $this->getDoctrine()->getRepository('BelastingBundle:Kind')
+                ->findByHuishouden($huishouden);
+        $woningen = $this->getDoctrine()->getRepository('BelastingBundle:Woning')
+                ->findByHuishouden($huishouden);
+
+        return $this->render('BelastingBundle:Huishouden:huishoudboekje.html.twig', array(
+                    'huishouden' => $huishouden,
+                    'belastingplichtigen' => $belastingplichtigen,
+                    'kinderen' => $kinderen,
+                    'woningen' => $woningen
+        ));
+    }
+
 }
