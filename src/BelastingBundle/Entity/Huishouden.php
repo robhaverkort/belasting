@@ -101,7 +101,119 @@ class Huishouden {
     }
 
     public function getHuurtoeslag($jaar = 2015) {
-        return 0;
+        $ht = array(
+            '2015' => array(
+                'MxSK' => 48,
+                'MaxHuur' => 710.68,
+                'GK' => "",
+                'AftopA' => 576.87,
+                'AftopB' => 618.26,
+                'KwKrtGrns' => 403.06,
+                'VrKndInk' => 4749,
+                'OHKort' => "",
+                'HTB' => "F",
+                'MxRubr' => 12,
+                'TslTmAftop' => 65,
+                'TslBovenAftop' => 40,
+                'EPH' => array(
+                    "Factor a" => 0.000000732860,
+                    "Factor b" => 0.002203398619,
+                    "MinInkGr" => 15175,
+                    "DoelGrpGr" => 21950,
+                    "TaakStBedr" => 27.44,
+                    "MinNrmHr" => 202.20
+                ),
+                'EPH65+' => array(
+                    "Factor a" => 0.000001090648,
+                    "Factor b" => -0.005942678703,
+                    "MinInkGr" => 16550,
+                    "DoelGrpGr" => 21950,
+                    "TaakStBedr" => 27.44,
+                    "MinNrmHr" => 200.38
+                ),
+                'MPH' => array(
+                    "Factor a" => 0.000000418893,
+                    "Factor b" => 0.002082410039,
+                    "MinInkGr" => 19625,
+                    "DoelGrpGr" => 29800,
+                    "TaakStBedr" => 27.44,
+                    "MinNrmHr" => 202.20
+                ),
+                'MPH65+' => array(
+                    "Factor a" => 0.000000640089,
+                    "Factor b" => -0.005213177897,
+                    "MinInkGr" => 22150,
+                    "DoelGrpGr" => 29825,
+                    "TaakStBedr" => 27.44,
+                    "MinNrmHr" => 198.57
+                )
+            ),
+            '2016' => array(
+                'MxSK' => 48,
+                'MaxHuur' => 710.68,
+                'GK' => "",
+                'AftopA' => 586.68,
+                'AftopB' => 628.76,
+                'KwKrtGrns' => 409.92,
+                'VrKndInk' => 4773,
+                'OHKort' => "",
+                'HTB' => "F",
+                'MxRubr' => 12,
+                'TslTmAftop' => 65,
+                'TslBovenAftop' => 40,
+                'EPH' => array(
+                    "Factor a" => 0.000000720374,
+                    "Factor b" => 0.002180910066,
+                    "MinInkGr" => 15400,
+                    "DoelGrpGr" => 22100,
+                    "TaakStBedr" => 27.44,
+                    "MinNrmHr" => 204.43
+                ),
+                'EPH65+' => array(
+                    "Factor a" => 0.000001040487,
+                    "Factor b" => -0.005595475431,
+                    "MinInkGr" => 16900,
+                    "DoelGrpGr" => 22100,
+                    "TaakStBedr" => 27.44,
+                    "MinNrmHr" => 202.61
+                ),
+                'MPH' => array(
+                    "Factor a" => 0.000000410057,
+                    "Factor b" => 0.002089580094,
+                    "MinInkGr" => 19925,
+                    "DoelGrpGr" => 30000,
+                    "TaakStBedr" => 27.44,
+                    "MinNrmHr" => 204.43
+                ),
+                'MPH65+' => array(
+                    "Factor a" => 0.000000618093,
+                    "Factor b" => -0.005109221721,
+                    "MinInkGr" => 22625,
+                    "DoelGrpGr" => 30050,
+                    "TaakStBedr" => 27.44,
+                    "MinNrmHr" => 200.80
+                )
+            )
+        );
+
+        $rekenhuur = $this->getWoningen()[0]->getKalehuur();
+        $rekenhuur+= $this->getWoningen()[0]->getServicekosten();
+
+        $hhsize = sizeof($this->getBelastingplichtigen()) + sizeof($this->getKinderen());
+        $hhtype = $hhsize < 2 ? "EPH" : "MPH";
+
+        if ($rekenhuur > $ht[$jaar]['MaxHuur']) //vanaf 23 jr, wat anders ?
+            return 0;
+
+        if ($this->getVerzamelinkomen($jaar) > $ht[$jaar][$hhtype]['DoelGrpGr'])
+            return 0;
+
+        $normhuur = ($ht[$jaar][$hhtype]['Factor a'] * pow($this->getVerzamelinkomen($jaar), 2));
+        $normhuur+= ($ht[$jaar][$hhtype]['Factor b'] * $this->getVerzamelinkomen($jaar));
+
+        $normhuur = max($normhuur, $ht[$jaar][$hhtype]['MinNrmHr']);
+
+        return $normhuur;
     }
 
     public function getKinderbijslagkwartaal($jaar = 2015, $kwartaal = 1) {
@@ -314,16 +426,16 @@ class Huishouden {
             if ($leeftijd < 18) {
                 $aantalkinderen += 1;
                 if ($leeftijd >= 16) {
-                    $toeslag += $kgb[2015]['VH16Plus'];
+                    $toeslag += $kgb[$jaar]['VH16Plus'];
                 } elseif ($leeftijd >= 12) {
-                    $toeslag += $kgb[2015]['VH12Plus'];
+                    $toeslag += $kgb[$jaar]['VH12Plus'];
                 }
             }
         }
         $toeslag += $kgb[$jaar][min(3, $aantalkinderen)]; // standaard toeslag
         $toeslag += max(0, $aantalkinderen - 3) * $kgb[$jaar]['extrakind']; // meer dan 3 kinderen
         $toeslag += sizeof($this->getBelastingplichtigen()) < 2 ? $kgb[$jaar]['VHgeenTP'] : 0; // geen partner
-        $toeslag -= min($toeslag, $kgb[$jaar]['Tslg'] / 100 * max(0, ($this->getVerzamelinkomen() - $kgb[2015]['Drempel']))); // Afbouw
+        $toeslag -= min($toeslag, $kgb[$jaar]['Tslg'] / 100 * max(0, ($this->getVerzamelinkomen() - $kgb[$jaar]['Drempel']))); // Afbouw
         return $toeslag / 12;
     }
 

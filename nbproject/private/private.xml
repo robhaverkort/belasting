@@ -3,10 +3,6 @@
     <editor-bookmarks xmlns="http://www.netbeans.org/ns/editor-bookmarks/2" lastBookmarkId="0"/>
     <open-files xmlns="http://www.netbeans.org/ns/projectui-open-files/2">
         <group>
-            <file>file:/srv/www/htdocs/belasting/src/BelastingBundle/Resources/views/Huishouden/view.html.twig</file>
-            <file>file:/srv/www/htdocs/belasting/src/BelastingBundle/Entity/Belastingplichtige.php</file>
-            <file>file:/srv/www/htdocs/belasting/src/BelastingBundle/Entity/Kind.php</file>
-            <file>file:/srv/www/htdocs/belasting/src/BelastingBundle/Resources/views/Huishouden/huishoudboekje.html.twig</file>
             <file>file:/srv/www/htdocs/belasting/src/BelastingBundle/Entity/Huishouden.php</file>
             <file>file:/srv/www/htdocs/belasting/src/BelastingBundle/Resources/views/Toeslag/index.html.twig</file>
         </group>
