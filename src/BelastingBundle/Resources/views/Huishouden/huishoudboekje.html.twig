@@ -5,8 +5,8 @@
 {% block body %}
 
     <div class="jumbotron">
-        <h1>Overzicht</h1>
-        <p>Op deze pagina zie je snel de samenstelling van je familie, je netto inkomen en eventuele toeslagen waar je recht op hebt.</p>
+        <h1>Huishoudboekje</h1>
+        <p>Op deze pagina vind je snel je netto inkomsten en uitgaven en wat je overhoudt.</p>
     </div>
 
     <div class="page-header">
@@ -58,23 +58,8 @@
                     <h3 class="panel-title">Te besteden</h3>
                 </div>
                 <div class="panel-body">
-                    <table class="table-salaris">
-                        <tr>
-                            <td>Inkomsten</td>
-                            <td>{{ huishouden.inkomstentotaal|number_format }}</td>
-                            <td>{{ (huishouden.inkomstentotaal/12)|number_format(2) }}</td>
-                        </tr>
-                        <tr>
-                            <td>Uitgaven</td>
-                            <td>{{ huishouden.uitgaventotaal|number_format }}</td>
-                            <td>{{ (huishouden.uitgaventotaal/12)|number_format(2) }}</td>
-                        </tr>
-                        <tr>
-                            <td>Te besteden</td>
-                            <td>{{ (huishouden.inkomstentotaal-huishouden.uitgaventotaal)|number_format }}</td>
-                            <td>{{ ((huishouden.inkomstentotaal-huishouden.uitgaventotaal)/12)|number_format(2) }}</td>
-                        </tr>
-                    </table>
+                    Netto over per jaar: <br/>
+                    Gemiddeld per maand:
                 </div>
             </div>
         </div>
