@@ -1,0 +1,32 @@
+
+<div class="panel panel-default">
+    <div class="panel-heading">
+        <h3 class="panel-title">KinderOpvangToeslag</h3>
+    </div>
+    <div class="panel-body">
+        {% if kinderen %}
+            <table class="table-kind">
+                {% for maand in 1..12 %}
+                    <tr>
+                        <td valign="top">{{ maand }}</td>
+                        <td>
+                            <table>
+                                {% for kind in huishouden.kinderen %}
+                                    <tr>
+                                        <td><b>{{ kind.naam }}</b>, {{ kind.gebdatum|date("Y/m/d") }}</td>
+                                        {% for kinderopvang in kind.kinderopvang %}
+                                            <td>{{ kinderopvang.naam }}, {{ kinderopvang.type }}, {{ kinderopvang.uren }} uren a {{ kinderopvang.uurprijs|number_format(2) }}</td>
+                                            <td>{{ kinderopvang.kosten|number_format(2) }}</td>
+                                        {% endfor %}
+                                    </tr>
+                                {% endfor %}
+                            </table>
+                        </td>
+                    </tr>
+                {% endfor %}
+            </table>     
+        {% else %}
+            geen kinderen
+        {% endif %}
+    </div>
+</div>

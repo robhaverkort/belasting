@@ -1,0 +1,20 @@
+
+<div class="panel panel-default">
+    <div class="panel-heading">
+        <h3 class="panel-title">KinderBijslag</h3>
+    </div>
+    <div class="panel-body">
+        {% if kinderen %}
+            <table>
+                {% for kwartaal in 1..4 %}
+                    <tr>
+                        <td>kwartaal {{ kwartaal }} :</td>
+                        <td>{{ huishouden.kinderbijslagkwartaal(2015,kwartaal)|number_format(2) }}</td>
+                    </tr>
+                {% endfor %}
+            </table>      
+        {% else %}
+            geen kinderen
+        {% endif %}
+    </div>
+</div>

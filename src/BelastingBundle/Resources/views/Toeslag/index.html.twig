@@ -93,117 +93,27 @@
     <div class="row">
 
         <div class="col-sm-4">
-            <div class="panel panel-default">
-                <div class="panel-heading">
-                    <h3 class="panel-title">ZorgToeslag</h3>
-                </div>
-                <div class="panel-body">
-                    ZorgToeslag per jaar: {{ huishouden.zorgtoeslag|number_format }}
-                    <table>
-                    </table>      
-                </div>
-            </div>
+            {{ include('BelastingBundle::Toeslag/zorgtoeslag.html.twig', { 'huishouden': huishouden }) }}
         </div>
 
         <div class="col-sm-4">
-            <div class="panel panel-default">
-                <div class="panel-heading">
-                    <h3 class="panel-title">HuurToeslag</h3>
-                </div>
-                <div class="panel-body">
-                    Huurtoeslag per jaar: {{ huishouden.huurtoeslag(2016)|number_format(2) }}
-                    <table>
-                    </table>      
-                </div>
-            </div>
+            {{ include('BelastingBundle::Toeslag/huurtoeslag.html.twig', { 'huishouden': huishouden }) }}
         </div>
 
         <div class="col-sm-4">
-            <div class="panel panel-default">
-                <div class="panel-heading">
-                    <h3 class="panel-title">KinderBijslag</h3>
-                </div>
-                <div class="panel-body">
-                    {% if kinderen %}
-                        <table>
-                            {% for kwartaal in 1..4 %}
-                                <tr>
-                                    <td>kwartaal {{ kwartaal }} :</td>
-                                    <td>{{ huishouden.kinderbijslagkwartaal(2015,kwartaal)|number_format(2) }}</td>
-                                </tr>
-                            {% endfor %}
-                        </table>      
-                    {% else %}
-                        geen kinderen
-                    {% endif %}
-                </div>
-            </div>
+            {{ include('BelastingBundle::Toeslag/kinderbijslag.html.twig', { 'huishouden': huishouden }) }}
         </div>
 
     </div>
 
     <div class="row">
 
-        <div class="col-sm-6">
-            <div class="panel panel-default">
-                <div class="panel-heading">
-                    <h3 class="panel-title">KinderOpvangToeslag</h3>
-                </div>
-                <div class="panel-body">
-                    {% if kinderen %}
-                        <table class="table-kind">
-                            {% for kind in huishouden.kinderen %}
-                                <tr>
-                                    <td><b>{{ kind.naam }}</b>, {{ kind.gebdatum|date("Y/m/d") }}</td>
-                                </tr>
-                                {% for kinderopvang in kind.kinderopvang %}
-                                    <tr>
-                                        <td>-- {{ kinderopvang.naam }}<br/>{{ kinderopvang.type }}, 
-                                            {{ kinderopvang.uren }} uren a {{ kinderopvang.uurprijs|number_format(2) }}</td>
-                                        <td class="nr">{{ kinderopvang.kosten|number_format(2) }}</td>
-                                        <td>{{ huishouden.kinderopvangtoeslagpercentage(2015,1)|number_format(1) }}%</td>
-                                        <td>{{ huishouden.kinderopvangtoeslagpercentage(2015,2)|number_format(1) }}%</td>
-                                        <td>{{ huishouden.kinderopvangtoeslagpercentage(2016,1)|number_format(1) }}%</td>
-                                        <td>{{ huishouden.kinderopvangtoeslagpercentage(2016,2)|number_format(1) }}%</td>
-                                    </tr>
-                                {% endfor %}
-                            {% endfor %}
-                        </table>     
-                    {% else %}
-                        geen kinderen
-                    {% endif %}
-
-                </div>
-            </div>
+        <div class="col-sm-12">
+            {{ include('BelastingBundle::Toeslag/kinderopvangtoeslag.html.twig', { 'huishouden': huishouden }) }}
         </div>
 
         <div class="col-sm-4">
-            <div class="panel panel-default">
-                <div class="panel-heading">
-                    <h3 class="panel-title">Kindgebonden Budget</h3>
-                </div>
-                <div class="panel-body">
-                    {% if kinderen %}
-                        <table class="table-kind">
-                            {% for mnd in 1..12 %}
-                                <tr>
-                                    <td width="40px">{{ mnd }}</td>
-                                    {% for n in range( 0, kinderen|length-1 ) %}
-                                        <td>{{ kinderen[n].naam }},{{ kinderen[n].leeftijd(2015,mnd) }} jaar.</td>
-                                    {% endfor %}
-                                    <td>{{ huishouden.kindgebondenbudgetmaand(2015,mnd)|number_format }}</td>
-                                </tr>
-                            {% endfor %}
-                            <tr>
-                                <td colspan="9">Kindgebonden Budget per jaar:</td>
-                                <td class="nr">{{ huishouden.kindgebondenbudget|number_format }}</td>
-                            </tr>
-                        </table> 
-                    {% else %}
-                        geen kinderen
-                    {% endif %}
-                </div>
-            </div>
+            {{ include('BelastingBundle::Toeslag/kindgebondenbudget.html.twig', { 'huishouden': huishouden }) }}
         </div>
 
     </div>

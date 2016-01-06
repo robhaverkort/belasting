@@ -205,15 +205,20 @@ class Huishouden {
         if ($rekenhuur > $ht[$jaar]['MaxHuur']) //vanaf 23 jr, wat anders ?
             return 0;
 
-        if ($this->getVerzamelinkomen($jaar) > $ht[$jaar][$hhtype]['DoelGrpGr'])
+        if ($this->getVerzamelinkomen($jaar) > $ht[$jaar][$hhtype]['DoelGrpGr']) // te hoog inkomen
             return 0;
 
         $normhuur = ($ht[$jaar][$hhtype]['Factor a'] * pow($this->getVerzamelinkomen($jaar), 2));
         $normhuur+= ($ht[$jaar][$hhtype]['Factor b'] * $this->getVerzamelinkomen($jaar));
 
         $normhuur = max($normhuur, $ht[$jaar][$hhtype]['MinNrmHr']);
+        $basishuur = $normhuur + $ht[$jaar][$hhtype]['TaakStBedr'];
 
-        return $normhuur;
+        $huurtoeslag = 100 / 100 * max(0, min($rekenhuur, $ht[$jaar]['KwKrtGrns']) - $basishuur); // 100% rekenhuur tot kwaliteitsgrens
+        $huurtoeslag += $ht[$jaar]['TslTmAftop'] / 100 * max(0, min($rekenhuur, $ht[$jaar]['AftopA']) - $ht[$jaar]['KwKrtGrns']);
+        $huurtoeslag += $ht[$jaar]['TslBovenAftop'] / 100 * max(0, $rekenhuur - $ht[$jaar]['AftopA']);
+
+        return $huurtoeslag;
     }
 
     public function getKinderbijslagkwartaal($jaar = 2015, $kwartaal = 1) {
@@ -384,6 +389,13 @@ class Huishouden {
             if ($this->getVerzamelinkomen() > $kotp[0]) {
                 return $kotp[min(2, $kind)];
             }
+        }
+        return 0;
+    }
+
+    public function getKinderopvangtoeslagmaand($jaar, $maand) {
+        foreach ($this->getKinderen() as $kind) {
+            $kinderopvang = $kind->getKinderopvang();
         }
         return 0;
     }
