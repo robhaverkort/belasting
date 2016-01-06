@@ -1,0 +1,28 @@
+<div class="panel panel-default">
+    <div class="panel-heading">
+        <h3 class="panel-title">Woning</h3>
+    </div>
+    <div class="panel-body">
+        <table class="table-woning">
+            <tr>
+                <th>{{ huishouden.woningen[0].adres }}</th>
+            </tr>
+            <tr>
+                <td>WOZ-waarde</td>
+                <td class="nr">{{ huishouden.woningen[0].wozwaarde|number_format }}</td>
+            </tr>
+            <tr>
+                <td>Betaalde Rente</td>
+                <td class="nr">{{ huishouden.woningen[0].betaalderente|number_format }}</td>
+            </tr>
+            <tr>
+                <td>Kale Huur</td>
+                <td class="nr">{{ huishouden.woningen[0].kalehuur|number_format(2) }}</td>
+            </tr>
+            <tr>
+                <td>Servicekosten</td>
+                <td class="nr">{{ huishouden.woningen[0].servicekosten|number_format(2) }}</td>
+            </tr>
+        </table>      
+    </div>
+</div>

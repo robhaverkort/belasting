@@ -12,80 +12,15 @@
     <div class="row">
 
         <div class="col-sm-4">
-            <div class="panel panel-default">
-                <div class="panel-heading">
-                    <h3 class="panel-title">Inkomen</h3>
-                </div>
-                <div class="panel-body">
-                    <table class="table-inkomen">
-                        <tr>
-                            <th></th>
-                            <th>Bruto</th>
-                            <th>Netto</th>
-                        </tr>
-                        {% for belastingplichtige in belastingplichtigen %}
-                            <tr>
-                                <td>{{ belastingplichtige.naam }}</td>
-                                <td class="nr">{{ belastingplichtige.brutoinkomen|number_format }}</td>
-                                <td class="nr">{{ belastingplichtige.nettoinkomen|number_format }}</td>
-                            </tr>
-                        {% endfor %}
-                        <tr>
-                            <td><b>Verzamelinkomen</b></td>
-                            <td class="nr"><b>{{ huishouden.verzamelinkomen|number_format }}</b></td>
-                        </tr>
-                    </table>
-                </div>
-            </div>
+            {{ include('BelastingBundle::Huishouden/inkomen.html.twig', { 'huishouden': huishouden }) }}
         </div>
 
         <div class="col-sm-4">
-            <div class="panel panel-default">
-                <div class="panel-heading">
-                    <h3 class="panel-title">Woning</h3>
-                </div>
-                <div class="panel-body">
-                    <table class="table-woning">
-                        <tr>
-                            <th>{{ woning.adres }}</th>
-                        </tr>
-                        <tr>
-                            <td>WOZ-waarde</td>
-                            <td class="nr">{{ woning.wozwaarde|number_format }}</td>
-                        </tr>
-                        <tr>
-                            <td>Betaalde Rente</td>
-                            <td class="nr">{{ woning.betaalderente|number_format }}</td>
-                        </tr>
-                        <tr>
-                            <td>Kale Huur</td>
-                            <td class="nr">{{ woning.kalehuur|number_format(2) }}</td>
-                        </tr>
-                        <tr>
-                            <td>Servicekosten</td>
-                            <td class="nr">{{ woning.servicekosten|number_format(2) }}</td>
-                        </tr>
-                    </table>      
-                </div>
-            </div>
+            {{ include('BelastingBundle::Huishouden/woning.html.twig', { 'huishouden': huishouden }) }}
         </div>
 
         <div class="col-sm-4">
-            <div class="panel panel-default">
-                <div class="panel-heading">
-                    <h3 class="panel-title">Kinderen</h3>
-                </div>
-                <div class="panel-body">
-                    <table class="table-kind">
-                        {% for kind in kinderen %}
-                            <tr>
-                                <td>{{ kind.naam }}</td>
-                                <td>{{ kind.gebdatum|date("Y/m/d") }}</td>
-                            </tr>
-                        {% endfor %}
-                    </table>      
-                </div>
-            </div>
+            {{ include('BelastingBundle::Huishouden/kinderen.html.twig', { 'huishouden': huishouden }) }}
         </div>
 
     </div>

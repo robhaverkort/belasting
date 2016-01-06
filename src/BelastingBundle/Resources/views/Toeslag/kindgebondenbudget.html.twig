@@ -4,13 +4,13 @@
         <h3 class="panel-title">Kindgebonden Budget</h3>
     </div>
     <div class="panel-body">
-        {% if kinderen %}
+        {% if huishouden.kinderen %}
             <table class="table-kind">
                 {% for mnd in 1..12 %}
                     <tr>
                         <td width="40px">{{ mnd }}</td>
-                        {% for n in range( 0, kinderen|length-1 ) %}
-                            <td>{{ kinderen[n].naam }},{{ kinderen[n].leeftijd(2015,mnd) }} jaar.</td>
+                        {% for n in range( 0, huishouden.kinderen|length-1 ) %}
+                            <td>{{ huishouden.kinderen[n].naam }},{{ huishouden.kinderen[n].leeftijd(2015,mnd) }} jaar.</td>
                         {% endfor %}
                         <td>{{ huishouden.kindgebondenbudgetmaand(2015,mnd)|number_format }}</td>
                     </tr>

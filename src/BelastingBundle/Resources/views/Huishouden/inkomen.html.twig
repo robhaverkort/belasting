@@ -1,0 +1,25 @@
+<div class="panel panel-default">
+    <div class="panel-heading">
+        <h3 class="panel-title">Inkomen</h3>
+    </div>
+    <div class="panel-body">
+        <table class="table-inkomen">
+            <tr>
+                <th></th>
+                <th>Bruto</th>
+                <th>Netto</th>
+            </tr>
+            {% for belastingplichtige in huishouden.belastingplichtigen %}
+                <tr>
+                    <td>{{ belastingplichtige.naam }}</td>
+                    <td class="nr">{{ belastingplichtige.brutoinkomen|number_format }}</td>
+                    <td class="nr">{{ belastingplichtige.nettoinkomen|number_format }}</td>
+                </tr>
+            {% endfor %}
+            <tr>
+                <td><b>Verzamelinkomen</b></td>
+                <td class="nr"><b>{{ huishouden.verzamelinkomen|number_format }}</b></td>
+            </tr>
+        </table>
+    </div>
+</div>
