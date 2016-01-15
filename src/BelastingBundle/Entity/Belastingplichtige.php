@@ -67,22 +67,22 @@ class Belastingplichtige {
      * 
      * @return int
      */
-    public function getBrutoinkomen($jaar=2015) {
+    public function getBrutoinkomen($jaar = 2016) {
         $brutoinkomen = 0;
         foreach ($this->getWerkgevers() as $werkgever) {
-            $brutoinkomen += $werkgever->getBrutosalaris(2015);
+            $brutoinkomen += $werkgever->getBrutosalaris(2016);
         }
         return $brutoinkomen;
     }
 
-    public function getAftrekposten($jaar=2015) {
-        if ($this->getHuishouden()->getWoningen()[0]->getKalehuur(2015))
+    public function getAftrekposten($jaar = 2016) {
+        if ($this->getHuishouden()->getWoningen()[0]->getKalehuur(2016))
             return 0;
         else
-            return $this->getAftrekpostenperc(2015) / 100 * $this->getHuishouden()->getWoningen()[0]->getBelastbaar(2015);
+            return $this->getAftrekpostenperc(2016) / 100 * $this->getHuishouden()->getWoningen()[0]->getBelastbaar(2016);
     }
 
-    public function getBelastbaarinkomen($jaar=2015) {
+    public function getBelastbaarinkomen($jaar = 2016) {
         return $this->getBrutoinkomen() + $this->getAftrekposten();
     }
 
@@ -126,35 +126,35 @@ class Belastingplichtige {
         return 0;
     }
 
-    public function getPremieaowbedrag($jaar=2015) {
+    public function getPremieaowbedrag($jaar = 2016) {
         return min(33589, $this->getBelastbaarinkomen());
     }
 
-    public function getPremieaow($jaar=2015) {
+    public function getPremieaow($jaar = 2016) {
         return 0.1790 * $this->getPremieaowbedrag();
     }
 
-    public function getPremieanwbedrag($jaar=2015) {
+    public function getPremieanwbedrag($jaar = 2016) {
         return min(33589, $this->getBelastbaarinkomen());
     }
 
-    public function getPremieanw($jaar=2015) {
+    public function getPremieanw($jaar = 2016) {
         return 0.0060 * $this->getPremieanwbedrag();
     }
 
-    public function getPremiewlzbedrag($jaar=2015) {
+    public function getPremiewlzbedrag($jaar = 2016) {
         return min(33589, $this->getBelastbaarinkomen());
     }
 
-    public function getPremiewlz($jaar=2015) {
+    public function getPremiewlz($jaar = 2016) {
         return 0.0965 * $this->getPremiewlzbedrag();
     }
 
-    public function getAlgemeneheffingskorting($jaar=2015) {
+    public function getAlgemeneheffingskorting($jaar = 2016) {
         return max(2203 - 861, 2203 - 0.0232 * max(0, ($this->getBelastbaarinkomen() - 19822)));
     }
 
-    public function getArbeidskorting($jaar=2015) {
+    public function getArbeidskorting($jaar = 2016) {
         if ($this->getBelastbaarinkomen() <= 9010) {
             return 0.01810 * $this->getBelastbaarinkomen();
         } else {
@@ -162,7 +162,7 @@ class Belastingplichtige {
         }
     }
 
-    public function getWerkbonus($jaar=2015) {
+    public function getWerkbonus($jaar = 2016) {
         if ($this->getBelastbaarinkomen() <= 17327) {
             return 0;
         } elseif ($this->getBelastbaarinkomen() <= 19252) {
@@ -176,11 +176,11 @@ class Belastingplichtige {
         }
     }
 
-    public function hasFiscalepartner($jaar=2015) {
+    public function hasFiscalepartner($jaar = 2016) {
         return sizeof($this->getHuishouden()->getBelastingplichtigen()) > 1;
     }
 
-    public function isMinstverdienend($jaar=2015) {
+    public function isMinstverdienend($jaar = 2016) {
         $belastingplichtigen = $this->getHuishouden()->getBelastingplichtigen();
         if (sizeof($belastingplichtigen) != 2)
             return false;
@@ -200,7 +200,7 @@ class Belastingplichtige {
         }
     }
 
-    public function getCombinatiekorting($jaar=2015) {
+    public function getCombinatiekorting($jaar = 2016) {
 // kind jonger dan 12 jaar op 1 jan
 // geen partner of minst verdienend
         if (
@@ -210,7 +210,7 @@ class Belastingplichtige {
             return $this->getBrutoinkomen() > 4857 ? min(2152, 1033 + 0.04 * $this->getBrutoinkomen()) : 0;
     }
 
-    public function getInhoudingen($jaar=2015) {
+    public function getInhoudingen($jaar = 2016) {
         return
                 $this->getInkomstenbelasting(1) +
                 $this->getInkomstenbelasting(2) +
@@ -221,7 +221,7 @@ class Belastingplichtige {
                 $this->getPremiewlz();
     }
 
-    public function getHeffingskortingen($jaar=2015) {
+    public function getHeffingskortingen($jaar = 2016) {
         return
                 $this->getAlgemeneheffingskorting() +
                 $this->getArbeidskorting() +
@@ -229,11 +229,11 @@ class Belastingplichtige {
                 $this->getCombinatiekorting();
     }
 
-    public function getHeffingskortingeneff($jaar=2015) {
+    public function getHeffingskortingeneff($jaar = 2016) {
         return min($this->getHeffingskortingen(), $this->getInhoudingen());
     }
 
-    public function getNettoinkomen($jaar=2015) {
+    public function getNettoinkomen($jaar = 2016) {
         return
                 $this->getBrutoinkomen() -
                 $this->getInhoudingen() +

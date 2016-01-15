@@ -54,7 +54,7 @@ class Huishouden {
      *  BEREKENINGEN
      */
 
-    public function getVerzamelinkomen($jaar = 2015) {
+    public function getVerzamelinkomen($jaar = 2016) {
         $verzamelinkomen = 0;
         foreach ($this->getBelastingplichtigen() as $belastingplichtige) {
             $verzamelinkomen += $belastingplichtige->getBelastbaarinkomen();
@@ -100,7 +100,7 @@ class Huishouden {
         return $zt;
     }
 
-    public function getHuurtoeslag($jaar = 2015) {
+    public function getHuurtoeslag($jaar = 2016) {
         $ht = array(
             '2015' => array(
                 'MxSK' => 48,
@@ -221,7 +221,7 @@ class Huishouden {
         return $huurtoeslag;
     }
 
-    public function getKinderbijslagkwartaal($jaar = 2015, $kwartaal = 1) {
+    public function getKinderbijslagkwartaal($jaar = 2016, $kwartaal = 1) {
         $maand = ($kwartaal - 1) * 3 + 1;
         $kinderbijslag = 0;
         foreach ($this->getKinderen() as $kind) {
@@ -236,7 +236,7 @@ class Huishouden {
         return $kinderbijslag;
     }
 
-    public function getKinderbijslag($jaar = 2015) {
+    public function getKinderbijslag($jaar = 2016) {
         return
                 $this->getKinderbijslagkwartaal($jaar, 1) +
                 $this->getKinderbijslagkwartaal($jaar, 2) +
@@ -244,7 +244,7 @@ class Huishouden {
                 $this->getKinderbijslagkwartaal($jaar, 4);
     }
 
-    public function getKinderopvangtoeslagpercentage($jaar, $kind) {
+    public function getKinderopvangtoeslagpercentage($jaar = 2016, $kind) {
         // 2015
         $kotp[2015][] = [0, 90.7, 93.3];
         $kotp[2015][] = [17919, 89.1, 93.3];
@@ -393,14 +393,14 @@ class Huishouden {
         return 0;
     }
 
-    public function getKinderopvangtoeslagmaand($jaar, $maand) {
+    public function getKinderopvangtoeslagmaand($jaar = 2016, $maand) {
         foreach ($this->getKinderen() as $kind) {
             $kinderopvang = $kind->getKinderopvang();
         }
         return 0;
     }
 
-    public function getKinderopvangtoeslag($jaar = 2015) {
+    public function getKinderopvangtoeslag($jaar = 2016) {
         $kinderen = $this->getKinderen();
         foreach ($kinderen as $kind) {
             $kinderopvang = $kind->getKinderopvang();
@@ -408,7 +408,7 @@ class Huishouden {
         return 0;
     }
 
-    public function getKindgebondenbudgetmaand($jaar = 2015, $maand = 0) {
+    public function getKindgebondenbudgetmaand($jaar = 2016, $maand = 0) {
         // 2015
         $kgb[2015][0] = 0;
         $kgb[2015][1] = 1032;
@@ -451,7 +451,7 @@ class Huishouden {
         return $toeslag / 12;
     }
 
-    public function getKindgebondenbudget($jaar = 2015) {
+    public function getKindgebondenbudget($jaar = 2016) {
         $kindgebondenbudget = 0;
         foreach (range(1, 12) as $mnd) {
             $kindgebondenbudget += $this->getKindgebondenbudgetmaand($jaar, $mnd);
@@ -459,7 +459,7 @@ class Huishouden {
         return $kindgebondenbudget;
     }
 
-    public function hasKind12($jaar = 2015) {
+    public function hasKind12($jaar = 2016) {
         foreach ($this->getKinderen() as $kind) {
             if ($kind->getLeeftijd($jaar, 1) < 12)
                 return true;
@@ -467,7 +467,7 @@ class Huishouden {
         return false;
     }
 
-    public function getInkomsten($jaar = 2015) {
+    public function getInkomsten($jaar = 2016) {
         $inkomsten = array();
         $inkomsten['salaris ' . $this->getBelastingplichtigen()[0]->getNaam()] = $this->getBelastingplichtigen()[0]->getNettoinkomen();
         $inkomsten['salaris ' . $this->getBelastingplichtigen()[1]->getNaam()] = $this->getBelastingplichtigen()[1]->getNettoinkomen();
@@ -479,11 +479,11 @@ class Huishouden {
         return $inkomsten;
     }
 
-    public function getInkomstentotaal($jaar = 2015) {
+    public function getInkomstentotaal($jaar = 2016) {
         return 0;
     }
 
-    public function getUitgaven($jaar = 2015) {
+    public function getUitgaven($jaar = 2016) {
         $uitgaven = array();
         $uitgaven['Hypotheekrente'] = $this->getWoningen()[0]->getBetaalderente();
         $uitgaven['Huur'] = 12 * $this->getWoningen()[0]->getKalehuur();
@@ -493,7 +493,7 @@ class Huishouden {
         return $uitgaven;
     }
 
-    public function getUitgaventotaal($jaar = 2015) {
+    public function getUitgaventotaal($jaar = 2016) {
         return 0;
     }
 
