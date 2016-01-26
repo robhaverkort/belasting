@@ -8,9 +8,9 @@ use Sensio\Bundle\FrameworkExtraBundle\Configuration\Route;
 class ToeslagController extends Controller {
 
     /**
-     * @Route("/toeslag/{huishouden_id}", name="toeslag_list")
+     * @Route("/{jaar}/toeslag/{huishouden_id}", name="toeslag_list")
      */
-    public function indexAction($huishouden_id) {
+    public function indexAction($jaar, $huishouden_id) {
         $huishouden = $this->getDoctrine()->getRepository('BelastingBundle:Huishouden')
                 ->find($huishouden_id);
 

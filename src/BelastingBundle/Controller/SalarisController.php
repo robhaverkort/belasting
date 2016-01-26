@@ -8,9 +8,9 @@ use Sensio\Bundle\FrameworkExtraBundle\Configuration\Route;
 class SalarisController extends Controller {
 
     /**
-     * @Route("/salaris/{huishouden_id}", name="salaris_view")
+     * @Route("/{jaar}/salaris/{huishouden_id}", name="salaris_view")
      */
-    public function viewAction($huishouden_id) {
+    public function viewAction($jaar,$huishouden_id) {
         $huishouden = $this->getDoctrine()->getRepository('BelastingBundle:Huishouden')
                 ->find($huishouden_id);
         $belastingplichtigen = $this->getDoctrine()->getRepository('BelastingBundle:Belastingplichtige')

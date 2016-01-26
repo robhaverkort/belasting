@@ -44,21 +44,21 @@
                         <span class="icon-bar"></span>
                         <span class="icon-bar"></span>
                     </button>
-                    <a class="navbar-brand" href="{{ path('huishouden_list') }}">Bootstrap theme</a>
+                    <a class="navbar-brand" href="{{ path('huishouden_list',{'jaar':2016}) }}">Bootstrap theme</a>
                 </div>
                 <div id="navbar" class="navbar-collapse collapse">
                     {% if huishouden is defined %}
                         <ul class="nav navbar-nav">
-                            <li class="active"><a href="{{ path('huishouden_view',{'huishouden_id':huishouden.id}) }}">Overzicht</a></li>
-                            <li class="inactive"><a href="{{ path('huishouden_huishoudboekje',{'huishouden_id':huishouden.id}) }}">Huishoudboekje</a></li>
+                            <li class="active"><a href="{{ path('huishouden_view',{'jaar':2016,'huishouden_id':huishouden.id}) }}">Overzicht</a></li>
+                            <li class="inactive"><a href="{{ path('huishouden_huishoudboekje',{'jaar':2016,'huishouden_id':huishouden.id}) }}">Huishoudboekje</a></li>
                             <li><a href="#about">About</a></li>
                             <li><a href="#contact">Contact</a></li>
                             <li class="dropdown">
                                 <a href="#" class="dropdown-toggle" data-toggle="dropdown" role="button" aria-haspopup="true" aria-expanded="false">Details <span class="caret"></span></a>
                                 <ul class="dropdown-menu">
                                     <li class="dropdown-header">Inkomsten</li>
-                                    <li><a href="{{ path('salaris_view',{'huishouden_id':huishouden.id}) }}">Salaris</a></li>
-                                    <li><a href="{{ path('toeslag_list',{'huishouden_id':huishouden.id}) }}">Toeslagen</a></li>
+                                    <li><a href="{{ path('salaris_view',{'jaar':2016,'huishouden_id':huishouden.id}) }}">Salaris</a></li>
+                                    <li><a href="{{ path('toeslag_list',{'jaar':2016,'huishouden_id':huishouden.id}) }}">Toeslagen</a></li>
                                     <li role="separator" class="divider"></li>
                                     <li class="dropdown-header">Uitgaven</li>
                                     <li><a href="#">Woning</a></li>

@@ -8,18 +8,18 @@ use Sensio\Bundle\FrameworkExtraBundle\Configuration\Route;
 class HuishoudenController extends Controller {
 
     /**
-     * @Route("/huishouden", name="huishouden_list")
+     * @Route("/{jaar}/huishouden", name="huishouden_list")
      */
-    public function indexAction() {
+    public function indexAction($jaar) {
         $repository = $this->getDoctrine()->getRepository('BelastingBundle:Huishouden');
         $huishoudens = $repository->findAll();
         return $this->render('BelastingBundle:Huishouden:index.html.twig', array('huishoudens' => $huishoudens));
     }
 
     /**
-     * @Route("/huishouden/{huishouden_id}", name="huishouden_view")
+     * @Route("/{jaar}/huishouden/{huishouden_id}", name="huishouden_view")
      */
-    public function viewAction($huishouden_id) {
+    public function viewAction($jaar,$huishouden_id) {
         $huishouden = $this->getDoctrine()->getRepository('BelastingBundle:Huishouden')
                 ->find($huishouden_id);
         $belastingplichtigen = $this->getDoctrine()->getRepository('BelastingBundle:Belastingplichtige')
@@ -38,9 +38,9 @@ class HuishoudenController extends Controller {
     }
 
     /**
-     * @Route("/huishouden/huishoudboekje/{huishouden_id}", name="huishouden_huishoudboekje")
+     * @Route("/{jaar}/huishouden/huishoudboekje/{huishouden_id}", name="huishouden_huishoudboekje")
      */
-    public function huishoudboekjeAction($huishouden_id) {
+    public function huishoudboekjeAction($jaar,$huishouden_id) {
         $huishouden = $this->getDoctrine()->getRepository('BelastingBundle:Huishouden')
                 ->find($huishouden_id);
         $belastingplichtigen = $this->getDoctrine()->getRepository('BelastingBundle:Belastingplichtige')
