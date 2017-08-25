@@ -15,13 +15,13 @@ class DefaultController extends Controller {
     public function indexAction(Request $request) {
 
         $form = $this->createFormBuilder()
-                ->add('naam_1', 'text', array('label' => 'naam 1'))
-                ->add('bruto_salaris_1', 'text', array('label' => 'bruto salaris 1'))
-                ->add('naam_2', 'text', array('label' => 'naam 2'))
-                ->add('bruto_salaris_2', 'text', array('label' => 'bruto salaris 2'))
-                ->add('eigenwoning_woz', 'text', array('label' => 'EigenWoning WOZ'))
-                ->add('eigenwoning_rente', 'text', array('label' => 'EigenWoning Rente'))
-                ->add('save', 'submit', array('label' => 'Bereken'))
+                ->add('naam_1', 'Symfony\Component\Form\Extension\Core\Type\TextType', array('label' => 'naam 1'))
+                ->add('bruto_salaris_1', 'Symfony\Component\Form\Extension\Core\Type\TextType', array('label' => 'bruto salaris 1'))
+                ->add('naam_2', 'Symfony\Component\Form\Extension\Core\Type\TextType', array('label' => 'naam 2'))
+                ->add('bruto_salaris_2', 'Symfony\Component\Form\Extension\Core\Type\TextType', array('label' => 'bruto salaris 2'))
+                ->add('eigenwoning_woz', 'Symfony\Component\Form\Extension\Core\Type\TextType', array('label' => 'EigenWoning WOZ'))
+                ->add('eigenwoning_rente', 'Symfony\Component\Form\Extension\Core\Type\TextType', array('label' => 'EigenWoning Rente'))
+                ->add('save', 'Symfony\Component\Form\Extension\Core\Type\SubmitType', array('label' => 'Bereken'))
                 ->getForm();
 
         $form->handleRequest($request);
