@@ -514,12 +514,12 @@ FrameworkBundle
 
  * The `validator.mapping.cache.apc` service is deprecated, and will be removed in 3.0.
    Use `validator.mapping.cache.doctrine.apc` instead.
-   
- * The ability to pass `apc` as the `framework.validation.cache` configuration key value is deprecated, 
+
+ * The ability to pass `apc` as the `framework.validation.cache` configuration key value is deprecated,
    and will be removed in 3.0. Use `validator.mapping.cache.doctrine.apc` instead:
-   
+
    Before:
-   
+
    ```yaml
    framework:
        validation:
@@ -527,7 +527,7 @@ FrameworkBundle
    ```
 
    After:
-   
+
    ```yaml
    framework:
        validation:
@@ -612,3 +612,54 @@ Yaml
    ```yml
    class: "Foo\\Var"
    ```
+
+HttpFoundation
+--------------
+
+ * Deprecated finding deep items in `ParameterBag::get()`. This may affect you
+   when getting parameters from the `Request` class:
+
+   Before:
+
+   ```php
+   $request->query->get('foo[bar]', null, true);
+   ```
+
+   After:
+
+   ```php
+   $request->query->get('foo')['bar'];
+   ```
+
+Routing
+-------
+
+ * Deprecated the hardcoded value for the `$referenceType` argument of the `UrlGeneratorInterface::generate` method.
+   Use the constants defined in the `UrlGeneratorInterface` instead.
+
+   Before:
+
+   ```php
+   // url generated in controller
+   $this->generateUrl('blog_show', array('slug' => 'my-blog-post'), true);
+
+   // url generated in @router service
+   $router->generate('blog_show', array('slug' => 'my-blog-post'), true);
+   ```
+
+   After:
+
+   ```php
+   use Symfony\Component\Routing\Generator\UrlGeneratorInterface;
+
+   // url generated in controller
+   $this->generateUrl('blog_show', array('slug' => 'my-blog-post'), UrlGeneratorInterface::ABSOLUTE_URL);
+
+   // url generated in @router service
+   $router->generate('blog_show', array('slug' => 'my-blog-post'), UrlGeneratorInterface::ABSOLUTE_URL);
+   ```
+   
+DoctrineBridge
+--------------
+ * Deprecated using the entity provider with a Doctrine repository implementing `UserProviderInterface`.
+   Make it implement `UserLoaderInterface` instead.

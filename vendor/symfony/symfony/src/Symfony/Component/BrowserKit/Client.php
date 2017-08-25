@@ -468,6 +468,7 @@ abstract class Client
 
         if (-1 !== $this->maxRedirects) {
             if ($this->redirectCount > $this->maxRedirects) {
+                $this->redirectCount = 0;
                 throw new \LogicException(sprintf('The maximum number (%d) of redirections was reached.', $this->maxRedirects));
             }
         }
@@ -475,7 +476,7 @@ abstract class Client
         $request = $this->internalRequest;
 
         if (in_array($this->internalResponse->getStatus(), array(302, 303))) {
-            $method = 'get';
+            $method = 'GET';
             $files = array();
             $content = null;
         } else {
@@ -484,7 +485,7 @@ abstract class Client
             $content = $request->getContent();
         }
 
-        if ('get' === strtolower($method)) {
+        if ('GET' === strtoupper($method)) {
             // Don't forward parameters for GET request as it should reach the redirection URI
             $parameters = array();
         } else {
@@ -542,9 +543,9 @@ abstract class Client
             return parse_url($currentUri, PHP_URL_SCHEME).':'.$uri;
         }
 
-        // anchor?
-        if (!$uri || '#' == $uri[0]) {
-            return preg_replace('/#.*?$/', '', $currentUri).$uri;
+        // anchor or query string parameters?
+        if (!$uri || '#' == $uri[0] || '?' == $uri[0]) {
+            return preg_replace('/[#?].*?$/', '', $currentUri).$uri;
         }
 
         if ('/' !== $uri[0]) {

@@ -1,6 +1,35 @@
 UPGRADE FROM 2.x to 3.0
 =======================
 
+# Table of Contents
+
+- [ClassLoader](#classloader)
+- [Config](#config)
+- [Console](#console)
+- [DependencyInjection](#dependencyinjection)
+- [DoctrineBridge](#doctrinebridge)
+- [DomCrawler](#domcrawler)
+- [EventDispatcher](#eventdispatcher)
+- [Form](#form)
+- [FrameworkBundle](#frameworkbundle)
+- [HttpFoundation](#httpfoundation)
+- [HttpKernel](#httpkernel)
+- [Locale](#locale)
+- [Monolog Bridge](#monolog-bridge)
+- [Process](#process)
+- [PropertyAccess](#propertyaccess)
+- [Routing](#routing)
+- [Security](#security)
+- [SecurityBundle](#securitybundle)
+- [Serializer](#serializer)
+- [Swiftmailer Bridge](#swiftmailer-bridge)
+- [Translator](#translator)
+- [Twig Bridge](#twig-bridge)
+- [TwigBundle](#twigbundle)
+- [Validator](#validator)
+- [WebProfiler](#webprofiler)
+- [Yaml](#yaml)
+
 ### ClassLoader
 
  * The `UniversalClassLoader` class has been removed in favor of
@@ -202,6 +231,9 @@ UPGRADE FROM 2.x to 3.0
    closures, but the closure is now resolved in the type instead of in the
    loader.
 
+ * Using the entity provider with a Doctrine repository implementing `UserProviderInterface` is not supported anymore.
+   You should make the repository implement `UserLoaderInterface` instead.
+
 ### EventDispatcher
 
  * The interface `Symfony\Component\EventDispatcher\Debug\TraceableEventDispatcherInterface`
@@ -348,6 +380,58 @@ UPGRADE FROM 2.x to 3.0
    $form = $this->createForm(MyType::class);
    ```
 
+ * Passing custom data to forms now needs to be done 
+   through the options resolver. 
+
+    In the controller:
+
+    Before:
+    ```php
+    $form = $this->createForm(new MyType($variable), $entity, array(
+        'action' => $this->generateUrl('action_route'),
+        'method' => 'PUT',
+    ));
+    ```
+    After: 
+    ```php
+    $form = $this->createForm(MyType::class, $entity, array(
+        'action' => $this->generateUrl('action_route'),
+        'method' => 'PUT',
+        'custom_value' => $variable,
+    ));
+    ```
+    In the form type:
+    
+    Before:
+    ```php
+    class MyType extends AbstractType
+    {
+        private $value;
+    
+        public function __construct($variableValue)
+        {
+            $this->value = $value;
+        }
+        // ...
+    }
+    ```
+    
+    After:
+    ```php
+    public function buildForm(FormBuilderInterface $builder, array $options)
+    {
+        $value = $options['custom_value'];
+        // ...
+    }
+    
+    public function configureOptions(OptionsResolver $resolver)
+    {
+        $resolver->setDefaults(array(
+            'custom_value' => null,
+        ));
+    }
+    ```
+ 
  * The alias option of the `form.type_extension` tag was removed in favor of
    the `extended_type`/`extended-type` option.
 
@@ -365,8 +449,11 @@ UPGRADE FROM 2.x to 3.0
    </service>
    ```
 
- *  The `ChoiceToBooleanArrayTransformer`, `ChoicesToBooleanArrayTransformer`,
-    `FixRadioInputListener`, and `FixCheckboxInputListener` classes were removed.
+ * The `max_length` option was removed. Use the `attr` option instead by setting it to
+   an `array` with a `maxlength` key.
+
+ * The `ChoiceToBooleanArrayTransformer`, `ChoicesToBooleanArrayTransformer`,
+   `FixRadioInputListener`, and `FixCheckboxInputListener` classes were removed.
 
  * The `choice_list` option of `ChoiceType` was removed.
 
@@ -745,7 +832,7 @@ UPGRADE FROM 2.x to 3.0
    The `security.csrf.token_manager` should be used instead.
 
  * The `validator.mapping.cache.apc` service has been removed in favor of the `validator.mapping.cache.doctrine.apc` one.
-   
+
  * The ability to pass `apc` as the `framework.validation.cache` configuration key value has been removed.
    Use `validator.mapping.cache.doctrine.apc` instead:
 
@@ -896,6 +983,30 @@ UPGRADE FROM 2.x to 3.0
  * The `getMatcherDumperInstance()` and `getGeneratorDumperInstance()` methods in the
    `Symfony\Component\Routing\Router` have been changed from `public` to `protected`.
 
+ * Use the constants defined in the UrlGeneratorInterface for the $referenceType argument of the UrlGeneratorInterface::generate method.
+
+   Before:
+
+   ```php
+   // url generated in controller
+   $this->generateUrl('blog_show', array('slug' => 'my-blog-post'), true);
+
+   // url generated in @router service
+   $router->generate('blog_show', array('slug' => 'my-blog-post'), true);
+   ```
+
+   After:
+
+   ```php
+   use Symfony\Component\Routing\Generator\UrlGeneratorInterface;
+
+   // url generated in controller
+   $this->generateUrl('blog_show', array('slug' => 'my-blog-post'), UrlGeneratorInterface::ABSOLUTE_URL);
+
+   // url generated in @router service
+   $router->generate('blog_show', array('slug' => 'my-blog-post'), UrlGeneratorInterface::ABSOLUTE_URL);
+   ```
+
 ### Security
 
  * The `Resources/` directory was moved to `Core/Resources/`
@@ -1022,7 +1133,7 @@ UPGRADE FROM 2.x to 3.0
 
    ```php
    use Symfony\Component\Security\Core\Authorization\Voter\Voter;
-   
+
    class MyVoter extends Voter
    {
        protected function supports($attribute, $object)
@@ -1036,6 +1147,39 @@ UPGRADE FROM 2.x to 3.0
        }
    }
    ```
+
+ * The `AbstractVoter::isGranted()` method has been replaced by `Voter::voteOnAttribute()`.
+
+   Before:
+
+   ```php
+   class MyVoter extends AbstractVoter
+   {
+       protected function isGranted($attribute, $object, $user = null)
+       {
+           return 'EDIT' === $attribute && $user === $object->getAuthor();
+       }
+
+       // ...
+   }
+   ```
+
+   After:
+
+   ```php
+   class MyVoter extends Voter
+   {
+       protected function voteOnAttribute($attribute, $object, TokenInterface $token)
+       {
+           return 'EDIT' === $attribute && $token->getUser() === $object->getAuthor();
+       }
+
+       // ...
+   }
+   ```
+
+ * The `supportsAttribute()` and `supportsClass()` methods of the `AuthenticatedVoter`, `ExpressionVoter`,
+   and `RoleVoter` classes have been removed.
 
  * The `intention` option was renamed to `csrf_token_id` for all the authentication listeners.
 
@@ -1604,8 +1748,7 @@ UPGRADE FROM 2.x to 3.0
 
 ### WebProfiler
 
- * The `profiler:import` and `profiler:export` commands have been deprecated and
-   will be removed in 3.0.
+ * The `profiler:import` and `profiler:export` commands have been removed.
 
  * All the profiler storages different than `FileProfilerStorage` have been
    removed. The removed classes are:
@@ -1624,3 +1767,26 @@ UPGRADE FROM 2.x to 3.0
  * `Process::setStdin()` and `Process::getStdin()` have been removed. Use
    `Process::setInput()` and `Process::getInput()` that works the same way.
  * `Process::setInput()` and `ProcessBuilder::setInput()` do not accept non-scalar types.
+
+### HttpFoundation
+
+ * Removed the feature that allowed finding deep items in `ParameterBag::get()`.
+   This may affect you when getting parameters from the `Request` class:
+
+   Before:
+
+   ```php
+   $request->query->get('foo[bar]', null, true);
+   ```
+
+   After:
+
+   ```php
+   $request->query->get('foo')['bar'];
+   ```
+### Monolog Bridge
+
+ * `Symfony\Bridge\Monolog\Logger::emerg()` was removed. Use `emergency()` which is PSR-3 compatible.
+ * `Symfony\Bridge\Monolog\Logger::crit()` was removed. Use `critical()` which is PSR-3 compatible.
+ * `Symfony\Bridge\Monolog\Logger::err()` was removed. Use `error()` which is PSR-3 compatible.
+ * `Symfony\Bridge\Monolog\Logger::warn()` was removed. Use `warning()` which is PSR-3 compatible.

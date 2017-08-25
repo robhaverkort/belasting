@@ -12,6 +12,7 @@
 namespace Symfony\Component\Security\Http\Firewall;
 
 use Symfony\Component\Security\Core\Exception\AccessDeniedException;
+use Symfony\Component\Security\Core\User\UserInterface;
 use Symfony\Component\Security\Core\User\UserProviderInterface;
 use Symfony\Component\Security\Core\User\UserCheckerInterface;
 use Symfony\Component\Security\Core\Authorization\AccessDecisionManagerInterface;
@@ -157,11 +158,11 @@ class SwitchUserListener implements ListenerInterface
      */
     private function attemptExitUser(Request $request)
     {
-        if (false === $original = $this->getOriginalToken($this->tokenStorage->getToken())) {
+        if (null === ($currentToken = $this->tokenStorage->getToken()) || false === $original = $this->getOriginalToken($currentToken)) {
             throw new AuthenticationCredentialsNotFoundException('Could not find original Token object.');
         }
 
-        if (null !== $this->dispatcher) {
+        if (null !== $this->dispatcher && $original->getUser() instanceof UserInterface) {
             $user = $this->provider->refreshUser($original->getUser());
             $switchEvent = new SwitchUserEvent($request, $user);
             $this->dispatcher->dispatch(SecurityEvents::SWITCH_USER, $switchEvent);
